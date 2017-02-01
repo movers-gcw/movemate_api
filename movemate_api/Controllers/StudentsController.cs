@@ -125,7 +125,7 @@ namespace movemate_api.Controllers
             {
                 return NotFound();
             }
-            return Ok(facebookId);
+            return Ok();
         }
     }
 }
