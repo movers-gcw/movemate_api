@@ -27,6 +27,7 @@ namespace movemate_api.Controllers
         public IHttpActionResult GetStudent(int id)
         {
             Student student = db.Students.Find(id);
+       
             if (student == null)
             {
                 return NotFound();
@@ -90,6 +91,7 @@ namespace movemate_api.Controllers
         public IHttpActionResult DeleteStudent(int id)
         {
             Student student = db.Students.Find(id);
+         
             if (student == null)
             {
                 return NotFound();
@@ -113,6 +115,17 @@ namespace movemate_api.Controllers
         private bool StudentExists(int id)
         {
             return db.Students.Count(e => e.StudentId == id) > 0;
+        }
+        public IHttpActionResult FindStudentByFacebookId(String facebookId) // ricerca tramite id facebook
+        {
+            IQueryable<String> idToCheck = from s in db.Students
+                                           where s.FacebookId.Equals(facebookId)
+                                           select s.FacebookId;
+            if (idToCheck == null)
+            {
+                return NotFound();
+            }
+            return Ok(facebookId);
         }
     }
 }
