@@ -29,5 +29,7 @@ namespace movemate_api.Models
         {
             return new ApplicationDbContext();
         }
+
+        public System.Data.Entity.DbSet<movemate_api.Models.Student> Students { get; set; }
     }
 }
