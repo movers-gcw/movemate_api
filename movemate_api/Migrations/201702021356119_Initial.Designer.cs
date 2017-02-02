@@ -13,7 +13,7 @@ namespace movemate_api.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "201702020952083_Initial"; }
+            get { return "201702021356119_Initial"; }
         }
         
         string IMigrationMetadata.Source

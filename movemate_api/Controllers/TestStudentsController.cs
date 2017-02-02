@@ -17,22 +17,14 @@ namespace movemate_api.Controllers
     [TestClass]
     public class TestStudentsController : ApiController
     {
-        private ApplicationDbContext db = new ApplicationDbContext();
+
         [TestMethod]
         public void TestMethod1()
         {
             StudentsController controller = new StudentsController();
-            String id = "10210407129686878";
+            String id = "23";
             IHttpActionResult result = controller.FindRegisteredStudent(id);
-            Assert.AreEqual<IHttpActionResult>(result, Ok());
-        }
-
-        public void TestMethod2()
-        {
-            IQueryable<String> test = from s in db.Students
-                                      where s.Name.Equals("Andrea")
-                                      select s.Name;
-            Assert.AreEqual(test, "Andrea");
+            // DA VEDERE! Come testo le risposte http?
         }
     }
 }

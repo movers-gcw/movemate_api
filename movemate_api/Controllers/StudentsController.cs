@@ -27,7 +27,7 @@ namespace movemate_api.Controllers
         public IHttpActionResult GetStudent(int id)
         {
             Student student = db.Students.Find(id);
-       
+
             if (student == null)
             {
                 return NotFound();
@@ -91,7 +91,7 @@ namespace movemate_api.Controllers
         public IHttpActionResult DeleteStudent(int id)
         {
             Student student = db.Students.Find(id);
-         
+
             if (student == null)
             {
                 return NotFound();
@@ -120,18 +120,18 @@ namespace movemate_api.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult FindRegisteredStudent(String facebookId) // verifica se un utente è registrato e verificato
         {
-            IQueryable<String> idToCheck = from s in db.Students
-                                           where s.FacebookId.Equals(facebookId)
-                                           select s.FacebookId;
-            IQueryable<Boolean> isVerified = from s in db.Students
-                                             where s.FacebookId.Equals(facebookId)
-                                             select s.Verified;
-
-            if (idToCheck == null || isVerified.Equals(false))
+            Student student = db.Students.SqlQuery("SELECT * FROM dbo.Students WHERE FacebookId= @p0", facebookId).Single();
+            if (student == null || student.Verified==false)
             {
                 return NotFound();
             }
             return Ok();
+        }
+        [ResponseType(typeof(Student))]
+        public Student GetStudentByFacebookId(String facebookId)
+        {
+            return db.Students.SqlQuery("SELECT * FROM dbo.Students WHERE FacebookId= @p0", facebookId).Single();
+            
         }
     }
 }
