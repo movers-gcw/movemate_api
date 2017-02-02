@@ -16,7 +16,7 @@ namespace movemate_api.Migrations
                         Name = c.String(),
                         Surname = c.String(),
                         Email = c.String(),
-                        Verified = c.Boolean(),
+                        Verified = c.Boolean(nullable: false),
                         VerificationCode = c.String(),
                         FacebookId = c.String(),
                         GoogleId = c.String(),
@@ -63,7 +63,7 @@ namespace movemate_api.Migrations
                     })
                 .PrimaryKey(t => t.universityId);
             
-            
+           
         }
         
         public override void Down()
@@ -74,16 +74,15 @@ namespace movemate_api.Migrations
             DropForeignKey("dbo.Students", "Department_DepartmentId", "dbo.Departments");
             DropForeignKey("dbo.PointOfInterests", "Department_DepartmentId", "dbo.Departments");
             DropForeignKey("dbo.AspNetUserRoles", "RoleId", "dbo.AspNetRoles");
-           
             DropIndex("dbo.PointOfInterests", new[] { "Department_DepartmentId" });
             DropIndex("dbo.Departments", new[] { "University_universityId" });
             DropIndex("dbo.Students", new[] { "University_universityId" });
             DropIndex("dbo.Students", new[] { "Department_DepartmentId" });
-           
             DropTable("dbo.Universities");
             DropTable("dbo.PointOfInterests");
             DropTable("dbo.Departments");
             DropTable("dbo.Students");
+            
         }
     }
 }
