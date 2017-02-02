@@ -116,12 +116,18 @@ namespace movemate_api.Controllers
         {
             return db.Students.Count(e => e.StudentId == id) > 0;
         }
-        public IHttpActionResult FindStudentByFacebookId(String facebookId) // ricerca tramite id facebook
+
+        [ResponseType(typeof(void))]
+        public IHttpActionResult FindRegisteredStudent(String facebookId) // verifica se un utente è registrato e verificato
         {
             IQueryable<String> idToCheck = from s in db.Students
                                            where s.FacebookId.Equals(facebookId)
                                            select s.FacebookId;
-            if (idToCheck == null)
+            IQueryable<Boolean> isVerified = from s in db.Students
+                                             where s.FacebookId.Equals(facebookId)
+                                             select s.Verified;
+
+            if (idToCheck == null || isVerified.Equals(false))
             {
                 return NotFound();
             }
