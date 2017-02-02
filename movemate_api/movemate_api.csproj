@@ -244,9 +244,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702020952083_Initial.cs" />
-    <Compile Include="Migrations\201702020952083_Initial.Designer.cs">
-      <DependentUpon>201702020952083_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201702021356119_Initial.cs" />
+    <Compile Include="Migrations\201702021356119_Initial.Designer.cs">
+      <DependentUpon>201702021356119_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -350,12 +350,12 @@
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702020952083_Initial.resx">
-      <DependentUpon>201702020952083_Initial.cs</DependentUpon>
-    </EmbeddedResource>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <ItemGroup>
-    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
+    <EmbeddedResource Include="Migrations\201702021356119_Initial.resx">
+      <DependentUpon>201702021356119_Initial.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
