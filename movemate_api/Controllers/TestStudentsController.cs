@@ -18,13 +18,13 @@ namespace movemate_api.Controllers
     public class TestStudentsController : ApiController
     {
 
-        [TestMethod]
+       /* [TestMethod]
         public void TestMethod1()
         {
             StudentsController controller = new StudentsController();
             String id = "23";
-            IHttpActionResult result = controller.FindRegisteredStudent(id);
+            
             // DA VEDERE! Come testo le risposte http?
-        }
+        }*/
     }
 }
