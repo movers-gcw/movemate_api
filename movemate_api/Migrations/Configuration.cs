@@ -23,6 +23,11 @@ namespace movemate_api.Migrations
                     Verified = true
                 }
                 );*/
+
+            /*Student student = context.Students.Where(s => s.StudentId == 1).FirstOrDefault<Student>();
+            student.Verified = true;
+            context.Entry(student).State = System.Data.Entity.EntityState.Modified;
+            context.SaveChanges();*/
         }
 
     }
