@@ -15,18 +15,12 @@ namespace movemate_api.Migrations
 
         protected override void Seed(movemate_api.Models.ApplicationDbContext context)
         {
-           /* context.Students.AddOrUpdate(s => s.Name,
+            /*context.Students.AddOrUpdate(s => s.StudentId,
                 new Student
                 {
                     Name = "Edoardo",
                     FacebookId = "10210407129686878",
                     Verified = true
-                },
-                new Student
-                {
-                    Name = "Andrea",
-                    FacebookId = "0",
-                    Verified = false
                 }
                 );*/
         }

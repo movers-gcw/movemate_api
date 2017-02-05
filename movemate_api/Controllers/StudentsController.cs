@@ -27,7 +27,7 @@ namespace movemate_api.Controllers
         public IHttpActionResult GetStudent(int id)
         {
             Student student = db.Students.Find(id);
-
+            
             if (student == null)
             {
                 return NotFound();
@@ -120,7 +120,9 @@ namespace movemate_api.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult GetRegisteredStudent(String facebookId) // verifica se un utente è registrato e verificato
         {
-            Student student = db.Students.SqlQuery("SELECT * FROM dbo.Students WHERE FacebookId= @p0", facebookId).Single();
+            
+            String query = String.Concat("SELECT * FROM dbo.Students WHERE FacebookId= ", facebookId);
+            Student student = db.Students.SqlQuery(query).Single();
             if (student == null || student.Verified==false)
             {
                 return NotFound();
