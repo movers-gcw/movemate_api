@@ -118,7 +118,7 @@ namespace movemate_api.Controllers
         }
 
         [ResponseType(typeof(void))]
-        public IHttpActionResult FindRegisteredStudent(String facebookId) // verifica se un utente è registrato e verificato
+        public IHttpActionResult GetRegisteredStudent(String facebookId) // verifica se un utente è registrato e verificato
         {
             Student student = db.Students.SqlQuery("SELECT * FROM dbo.Students WHERE FacebookId= @p0", facebookId).Single();
             if (student == null || student.Verified==false)
@@ -128,10 +128,59 @@ namespace movemate_api.Controllers
             return Ok();
         }
         [ResponseType(typeof(Student))]
-        public Student GetStudentByFacebookId(String facebookId)
+        public Boolean GetStudentByFacebookId(String facebookId)
         {
-            return db.Students.SqlQuery("SELECT * FROM dbo.Students WHERE FacebookId= @p0", facebookId).Single();
-            
+            Student student = db.Students.SqlQuery("SELECT * FROM dbo.Students WHERE FacebookId= @p0", facebookId).Single();
+            if (student != null)
+            {
+                return true;
+            }
+            return false;
+        }
+        [ResponseType(typeof(void))]
+        public IHttpActionResult PostStudent(String facebookId, String name, String surname, String email)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            StudentFacade facade = new StudentFacade();
+            Student student = facade.CreateStudent(name,surname,email,facebookId);
+            db.Students.Add(student);
+            db.SaveChanges();
+            // da implementare invio codice email
+            return CreatedAtRoute("DefaultApi", new { id = student.StudentId }, student);
+        }
+    
+
+        public IHttpActionResult PutStudentVerification(String facebookId, String code)
+        {
+            Student student = db.Students.SqlQuery("SELECT * FROM dbo.Students WHERE FacebookId= @p0", facebookId).Single();
+            if(student.VerificationCode.Equals(code))
+            {
+                student.Verified = true;
+                db.Entry(student).State = EntityState.Modified;
+
+                try
+                {
+                    db.SaveChanges();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!StudentExists(student.StudentId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+
+                return StatusCode(HttpStatusCode.NoContent);
+            }
+            return StatusCode(HttpStatusCode.PreconditionFailed);
         }
     }
 }
