@@ -248,6 +248,18 @@
     <Compile Include="Migrations\201702021356119_Initial.Designer.cs">
       <DependentUpon>201702021356119_Initial.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702061201286_Initial1.cs" />
+    <Compile Include="Migrations\201702061201286_Initial1.Designer.cs">
+      <DependentUpon>201702061201286_Initial1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702061221108_Initial2.cs" />
+    <Compile Include="Migrations\201702061221108_Initial2.Designer.cs">
+      <DependentUpon>201702061221108_Initial2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702061345054_Initial3.cs" />
+    <Compile Include="Migrations\201702061345054_Initial3.Designer.cs">
+      <DependentUpon>201702061345054_Initial3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -304,6 +316,7 @@
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <None Include="Properties\PublishProfiles\movemate-api - Web Deploy %282%29.pubxml" />
+    <None Include="Properties\PublishProfiles\movemate-api - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\movemate-api - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -357,6 +370,15 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201702021356119_Initial.resx">
       <DependentUpon>201702021356119_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702061201286_Initial1.resx">
+      <DependentUpon>201702061201286_Initial1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702061221108_Initial2.resx">
+      <DependentUpon>201702061221108_Initial2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702061345054_Initial3.resx">
+      <DependentUpon>201702061345054_Initial3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

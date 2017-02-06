@@ -24,10 +24,24 @@ namespace movemate_api.Migrations
                 }
                 );*/
 
-            /*Student student = context.Students.Where(s => s.StudentId == 1).FirstOrDefault<Student>();
+            Student student = context.Students.Where(s => s.StudentId == 118).FirstOrDefault<Student>();
             student.Verified = true;
             context.Entry(student).State = System.Data.Entity.EntityState.Modified;
-            context.SaveChanges();*/
+            context.SaveChanges();
+
+            // comandi per cancellare tutti i dati da tutte le tabelle
+            /*for(int i = 1; i < 1000; i++)
+            {
+                
+                Student student = context.Students.Find(i);
+                if (student != null)
+                {
+                    context.Students.Remove(student);
+                    context.SaveChanges();
+                }
+            }*/
+
+
         }
 
     }
