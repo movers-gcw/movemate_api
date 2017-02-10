@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using movemate_api.Models;
+using Microsoft.ApplicationInsights;
 
 namespace movemate_api.Controllers
 {
@@ -75,30 +76,21 @@ namespace movemate_api.Controllers
         [ResponseType(typeof(Student))]
         public IHttpActionResult PostStudent(Student student)
         {
-            /*if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Students.Add(student);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = student.StudentId }, student);*/
-            // return PostNewStudent(facebookId,name,surname,email);
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             Student verify = db.Students.Where(s => s.FacebookId.Equals(student.FacebookId)).FirstOrDefault<Student>();
-            if (verify != null)
+            if (verify != null && !verify.Verified)
             {
+                MailSender.SendEmail(verify.Email, verify.VerificationCode);
                 return Ok();
             }
             StudentFacade facade = new StudentFacade();
             student = facade.AddVerificationCode(student);
+            MailSender.SendEmail(student.Email, student.VerificationCode);
             db.Students.Add(student);
             db.SaveChanges();
-            // da implementare invio codice email
             return CreatedAtRoute("DefaultApi", new { id = student.StudentId }, student);
         }
 
@@ -145,20 +137,9 @@ namespace movemate_api.Controllers
             }
             return Ok();
         }
-        [ResponseType(typeof(Student))]
-        private Boolean GetStudentByFacebookId(String facebookId)
-        {
-            Student student = db.Students.Where(s => s.FacebookId.Equals(facebookId)).FirstOrDefault<Student>();
-            if (student != null)
-            {
-                return true;
-            }
-            return false;
-        }
-
         public IHttpActionResult PutStudentVerification(String facebookId, String code)
         {
-            Student student = db.Students.SqlQuery("SELECT * FROM dbo.Students WHERE FacebookId= @p0", facebookId).Single();
+            Student student = db.Students.Where(s => s.FacebookId.Equals(facebookId)).FirstOrDefault<Student>();
             if (student.VerificationCode.Equals(code))
             {
                 student.Verified = true;
@@ -184,5 +165,6 @@ namespace movemate_api.Controllers
             }
             return StatusCode(HttpStatusCode.PreconditionFailed);
         }
+
     }
 }
