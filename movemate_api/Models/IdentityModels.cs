@@ -31,5 +31,8 @@ namespace movemate_api.Models
         }
 
         public System.Data.Entity.DbSet<movemate_api.Models.Student> Students { get; set; }
+        public System.Data.Entity.DbSet<movemate_api.Models.University> Universities { get; set; }
+        public System.Data.Entity.DbSet<movemate_api.Models.Department> Departments { get; set; }
+        public System.Data.Entity.DbSet<movemate_api.Models.PointOfInterest> PointsOfInterest { get; set; }
     }
 }
