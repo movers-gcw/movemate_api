@@ -49,6 +49,14 @@
       <HintPath>..\packages\Antlr.3.5.0.2\lib\Antlr3.Runtime.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="CsvHelper, Version=2.0.0.0, Culture=neutral, PublicKeyToken=8c4959082be5c823, processorArchitecture=MSIL">
+      <HintPath>..\packages\CsvHelper.2.16.3.0\lib\net45\CsvHelper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="EntityFramework.Seeder.EF6, Version=0.4.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\EntityFramework.Seeder.EF6.0.4.0\lib\EntityFramework.Seeder.EF6.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.AI.Agent.Intercept, Version=2.0.7.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.2.0.7\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
       <Private>True</Private>
@@ -261,6 +269,26 @@
     <Compile Include="Migrations\201702061345054_Initial3.Designer.cs">
       <DependentUpon>201702061345054_Initial3.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702121704234_Initial4.cs" />
+    <Compile Include="Migrations\201702121704234_Initial4.Designer.cs">
+      <DependentUpon>201702121704234_Initial4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702121749036_Initial5.cs" />
+    <Compile Include="Migrations\201702121749036_Initial5.Designer.cs">
+      <DependentUpon>201702121749036_Initial5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702121830465_Initial6.cs" />
+    <Compile Include="Migrations\201702121830465_Initial6.Designer.cs">
+      <DependentUpon>201702121830465_Initial6.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702121902565_Initial7.cs" />
+    <Compile Include="Migrations\201702121902565_Initial7.Designer.cs">
+      <DependentUpon>201702121902565_Initial7.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702122003151_Initial8.cs" />
+    <Compile Include="Migrations\201702122003151_Initial8.Designer.cs">
+      <DependentUpon>201702122003151_Initial8.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -316,6 +344,24 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EmbeddedResource Include="Migrations\201702121704234_Initial4.resx">
+      <DependentUpon>201702121704234_Initial4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702121749036_Initial5.resx">
+      <DependentUpon>201702121749036_Initial5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702121830465_Initial6.resx">
+      <DependentUpon>201702121830465_Initial6.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702121902565_Initial7.resx">
+      <DependentUpon>201702121902565_Initial7.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702122003151_Initial8.resx">
+      <DependentUpon>201702122003151_Initial8.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\departments.csv" />
+    <EmbeddedResource Include="Migrations\pois.csv" />
+    <EmbeddedResource Include="Migrations\universities.csv" />
     <None Include="Properties\PublishProfiles\movemate-api - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\movemate-api - Web Deploy %283%29.pubxml" />
     <None Include="Properties\PublishProfiles\movemate-api - Web Deploy.pubxml" />
