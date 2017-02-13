@@ -245,17 +245,19 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MailSender.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\TestStudentsController.cs" />
+    <Compile Include="Controllers\UniversitiesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702131410144_Initial.cs" />
-    <Compile Include="Migrations\201702131410144_Initial.Designer.cs">
-      <DependentUpon>201702131410144_Initial.cs</DependentUpon>
+    <Compile Include="Migrations\201702131554382_Initial.cs" />
+    <Compile Include="Migrations\201702131554382_Initial.Designer.cs">
+      <DependentUpon>201702131554382_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -312,8 +314,8 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <EmbeddedResource Include="Migrations\201702131410144_Initial.resx">
-      <DependentUpon>201702131410144_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702131554382_Initial.resx">
+      <DependentUpon>201702131554382_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\departments.csv" />
     <EmbeddedResource Include="Migrations\universities.csv" />
