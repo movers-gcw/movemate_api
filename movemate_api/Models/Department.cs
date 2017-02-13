@@ -11,9 +11,8 @@ namespace movemate_api.Models
     {   
         public int DepartmentId { get; set; }
         public virtual University University { get; set; }
-        
-        public String DepartmentName { get; set; }
-        [Required]
-        public PointOfInterest PointOfInterest { get; set; }
+        public String DepartmentName { get; set; } 
+        public String Address { get; set; }
+        public String PlaceId { get; set; }
     }
 }
