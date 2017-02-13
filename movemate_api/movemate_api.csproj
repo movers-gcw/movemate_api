@@ -253,41 +253,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702021356119_Initial.cs" />
-    <Compile Include="Migrations\201702021356119_Initial.Designer.cs">
-      <DependentUpon>201702021356119_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702061201286_Initial1.cs" />
-    <Compile Include="Migrations\201702061201286_Initial1.Designer.cs">
-      <DependentUpon>201702061201286_Initial1.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702061221108_Initial2.cs" />
-    <Compile Include="Migrations\201702061221108_Initial2.Designer.cs">
-      <DependentUpon>201702061221108_Initial2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702061345054_Initial3.cs" />
-    <Compile Include="Migrations\201702061345054_Initial3.Designer.cs">
-      <DependentUpon>201702061345054_Initial3.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702121704234_Initial4.cs" />
-    <Compile Include="Migrations\201702121704234_Initial4.Designer.cs">
-      <DependentUpon>201702121704234_Initial4.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702121749036_Initial5.cs" />
-    <Compile Include="Migrations\201702121749036_Initial5.Designer.cs">
-      <DependentUpon>201702121749036_Initial5.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702121830465_Initial6.cs" />
-    <Compile Include="Migrations\201702121830465_Initial6.Designer.cs">
-      <DependentUpon>201702121830465_Initial6.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702121902565_Initial7.cs" />
-    <Compile Include="Migrations\201702121902565_Initial7.Designer.cs">
-      <DependentUpon>201702121902565_Initial7.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702122003151_Initial8.cs" />
-    <Compile Include="Migrations\201702122003151_Initial8.Designer.cs">
-      <DependentUpon>201702122003151_Initial8.cs</DependentUpon>
+    <Compile Include="Migrations\201702131410144_Initial.cs" />
+    <Compile Include="Migrations\201702131410144_Initial.Designer.cs">
+      <DependentUpon>201702131410144_Initial.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -344,26 +312,15 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <EmbeddedResource Include="Migrations\201702121704234_Initial4.resx">
-      <DependentUpon>201702121704234_Initial4.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702121749036_Initial5.resx">
-      <DependentUpon>201702121749036_Initial5.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702121830465_Initial6.resx">
-      <DependentUpon>201702121830465_Initial6.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702121902565_Initial7.resx">
-      <DependentUpon>201702121902565_Initial7.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702122003151_Initial8.resx">
-      <DependentUpon>201702122003151_Initial8.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702131410144_Initial.resx">
+      <DependentUpon>201702131410144_Initial.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\departments.csv" />
-    <EmbeddedResource Include="Migrations\pois.csv" />
     <EmbeddedResource Include="Migrations\universities.csv" />
     <None Include="Properties\PublishProfiles\movemate-api - Web Deploy %282%29.pubxml" />
     <None Include="Properties\PublishProfiles\movemate-api - Web Deploy %283%29.pubxml" />
+    <None Include="Properties\PublishProfiles\movemate-api - Web Deploy %284%29.pubxml" />
+    <None Include="Properties\PublishProfiles\movemate-api - Web Deploy %285%29.pubxml" />
     <None Include="Properties\PublishProfiles\movemate-api - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.1.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -413,20 +370,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201702021356119_Initial.resx">
-      <DependentUpon>201702021356119_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702061201286_Initial1.resx">
-      <DependentUpon>201702061201286_Initial1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702061221108_Initial2.resx">
-      <DependentUpon>201702061221108_Initial2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702061345054_Initial3.resx">
-      <DependentUpon>201702061345054_Initial3.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
