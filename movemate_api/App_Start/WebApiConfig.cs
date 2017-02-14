@@ -12,6 +12,8 @@ namespace movemate_api
     {
         public static void Register(HttpConfiguration config)
         {
+            GlobalConfiguration.Configuration.IncludeErrorDetailPolicy = IncludeErrorDetailPolicy.Always;
+
             // Servizi e configurazione dell'API Web
             // Configurare l'API Web per usare solo l'autenticazione con token di connessione.
             config.SuppressDefaultHostAuthentication();
