@@ -128,8 +128,6 @@ namespace movemate_api.Controllers
         [ResponseType(typeof(void))]
         public IHttpActionResult GetRegisteredStudent(String facebookId) // verifica se un utente è registrato e verificato
         {
-
-
             Student student = db.Students.Where(s => s.FacebookId.Equals(facebookId)).FirstOrDefault<Student>();
             if (student == null || student.Verified == false)
             {
@@ -164,6 +162,15 @@ namespace movemate_api.Controllers
                 return StatusCode(HttpStatusCode.NoContent);
             }
             return StatusCode(HttpStatusCode.PreconditionFailed);
+        }
+        public IHttpActionResult GetStudentId(String id)
+        {
+            var student = db.Students.Where(s => s.FacebookId.Equals(id)).FirstOrDefault<Student>();
+            if(student == null)
+            {
+                return NotFound();
+            }
+            return Ok(student.StudentId);
         }
 
     }
