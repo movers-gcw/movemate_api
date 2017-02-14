@@ -14,5 +14,6 @@ namespace movemate_api.Models
         public double Longitude { get; set; }
         public String Address { get; set; }
         public DateTime DateTime { get; set; }
+        public Section Section { get; set; }
     }
 }
