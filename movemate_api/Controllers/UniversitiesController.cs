@@ -19,88 +19,17 @@ namespace movemate_api.Controllers
         // GET: api/Universities
         public IQueryable<University> GetUniversities()
         {
-            return db.Universities;
+            List<University> app = new List<University>();
+            foreach(University u in db.Universities)
+            {
+                University uni = new University();
+                uni.UniversityId = u.UniversityId;
+                uni.UniversityName = u.UniversityName;
+                app.Add(uni);
+            }
+            var unis = app.AsQueryable<University>();
+            return unis;
         }
-
-        // GET: api/Universities/5
-        [ResponseType(typeof(University))]
-        public IHttpActionResult GetUniversity(int id)
-        {
-            University university = db.Universities.Find(id);
-            if (university == null)
-            {
-                return NotFound();
-            }
-
-            return Ok(university);
-        }
-
-        // PUT: api/Universities/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutUniversity(int id, University university)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != university.UniversityId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(university).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!UniversityExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
-        // POST: api/Universities
-        [ResponseType(typeof(University))]
-        public IHttpActionResult PostUniversity(University university)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Universities.Add(university);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = university.UniversityId }, university);
-        }
-
-        // DELETE: api/Universities/5
-        [ResponseType(typeof(University))]
-        public IHttpActionResult DeleteUniversity(int id)
-        {
-            University university = db.Universities.Find(id);
-            if (university == null)
-            {
-                return NotFound();
-            }
-
-            db.Universities.Remove(university);
-            db.SaveChanges();
-
-            return Ok(university);
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
