@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Description;
 using movemate_api.Models;
+using Microsoft.ApplicationInsights;
 
 namespace movemate_api.Controllers
 {
@@ -16,91 +17,24 @@ namespace movemate_api.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Departments
-        public IQueryable<Department> GetDepartments()
+        // GET: api/Departments/
+        public IQueryable<Department> GetDepartments(int id)
         {
-            return db.Departments;
-        }
-
-        // GET: api/Departments/5
-        [ResponseType(typeof(Department))]
-        public IHttpActionResult GetDepartment(int id)
-        {
-            Department department = db.Departments.Find(id);
-            if (department == null)
+            List<Department> app = new List<Department>();
+            foreach(Department d in db.Departments)
             {
-                return NotFound();
-            }
-
-            return Ok(department);
-        }
-
-        // PUT: api/Departments/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutDepartment(int id, Department department)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != department.DepartmentId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(department).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!DepartmentExists(id))
+                if(d.University.UniversityId == id)
                 {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
+                    var dep = new Department();
+                    dep.DepartmentId = d.DepartmentId;
+                    dep.DepartmentName = d.DepartmentName;
+                    dep.Address = d.Address;
+                    app.Add(dep);
                 }
             }
-
-            return StatusCode(HttpStatusCode.NoContent);
+            var deps = app.AsQueryable<Department>();
+            return deps;
         }
-
-        // POST: api/Departments
-        [ResponseType(typeof(Department))]
-        public IHttpActionResult PostDepartment(Department department)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            db.Departments.Add(department);
-            db.SaveChanges();
-
-            return CreatedAtRoute("DefaultApi", new { id = department.DepartmentId }, department);
-        }
-
-        // DELETE: api/Departments/5
-        [ResponseType(typeof(Department))]
-        public IHttpActionResult DeleteDepartment(int id)
-        {
-            Department department = db.Departments.Find(id);
-            if (department == null)
-            {
-                return NotFound();
-            }
-
-            db.Departments.Remove(department);
-            db.SaveChanges();
-
-            return Ok(department);
-        }
-
         protected override void Dispose(bool disposing)
         {
             if (disposing)
