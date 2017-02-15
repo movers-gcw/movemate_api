@@ -6,12 +6,12 @@ using System.Web;
 
 namespace movemate_api.Models
 {
-    public class StudentFacade
+    public static class StudentFacade
     {
         static readonly char[] AvailableCharacters = {
              '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
         };
-        public Student CreateStudent(String name, String surname, String email, String facebookId)
+        public static Student CreateStudent(String name, String surname, String email, String facebookId)
         {
             Student student = new Models.Student();
             student.Name = name;
@@ -23,11 +23,32 @@ namespace movemate_api.Models
             return student;
         }
 
-        public Student AddVerificationCode(Student student)
+        public static Student AddVerificationCode(Student student)
         {
             String code = GenerateRandomCode(6);
             student.VerificationCode = code;
             return student;
+        }
+
+        public static StudentView ViewFromStudent(Student student)
+        {
+            var view = new StudentView();
+            view.Name = student.Name;
+            view.Surname = student.Surname;
+            view.Email = student.Email;
+            view.StudentId = student.StudentId;
+            return view;
+        }
+
+        public static List<StudentView> ViewFromParticipants(List<Student> students)
+        {
+            var list = new List<StudentView>();
+            
+            foreach(Student s in students)
+            {
+                list.Add(StudentFacade.ViewFromStudent(s));
+            }
+            return list;
         }
 
         private static String GenerateRandomCode(int length)

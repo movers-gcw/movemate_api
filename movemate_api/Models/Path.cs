@@ -9,10 +9,16 @@ namespace movemate_api.Models
 {
     public class Path
     {
+        public Path()
+        {
+            this.Participants = new List<Student>();
+        }
         public int PathId { get; set; }
         public String PathName { get; set; }
         [Required]
         public Student Maker { get; set; }
+        [ForeignKey("Maker")]
+        public int MakerId { get; set; }
         public List<Student> Participants { get; set; }
         public PointOfInterest Start { get; set; }
         public PointOfInterest Destination { get; set; }

@@ -248,6 +248,7 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MailSender.cs" />
+    <Compile Include="Controllers\PointOfInterestsController.cs" />
     <Compile Include="Migrations\201702151118239_Initial.cs" />
     <Compile Include="Migrations\201702151118239_Initial.Designer.cs">
       <DependentUpon>201702151118239_Initial.cs</DependentUpon>
@@ -256,6 +257,23 @@
     <Compile Include="Migrations\201702151316586_Initial1.Designer.cs">
       <DependentUpon>201702151316586_Initial1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702151354411_Initial2.cs" />
+    <Compile Include="Migrations\201702151354411_Initial2.Designer.cs">
+      <DependentUpon>201702151354411_Initial2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702151356006_Initial3.cs" />
+    <Compile Include="Migrations\201702151356006_Initial3.Designer.cs">
+      <DependentUpon>201702151356006_Initial3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702151412335_Initial4.cs" />
+    <Compile Include="Migrations\201702151412335_Initial4.Designer.cs">
+      <DependentUpon>201702151412335_Initial4.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201702152224083_Initial5.cs" />
+    <Compile Include="Migrations\201702152224083_Initial5.Designer.cs">
+      <DependentUpon>201702152224083_Initial5.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\PathBlob.cs" />
     <Compile Include="Models\PathCarBlob.cs" />
     <Compile Include="Controllers\PathsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
@@ -271,9 +289,15 @@
     <Compile Include="Models\Department.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Path.cs" />
+    <Compile Include="Models\PathCycBlob.cs" />
+    <Compile Include="Models\PathFacade.cs" />
+    <Compile Include="Models\PathPubBlob.cs" />
+    <Compile Include="Models\PathSpecifiedView.cs" />
+    <Compile Include="Models\PathView.cs" />
     <Compile Include="Models\PointOfInterest.cs" />
     <Compile Include="Models\Section.cs" />
     <Compile Include="Models\StudentFacade.cs" />
+    <Compile Include="Models\StudentView.cs" />
     <Compile Include="Models\University.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -327,6 +351,18 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702151316586_Initial1.resx">
       <DependentUpon>201702151316586_Initial1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702151354411_Initial2.resx">
+      <DependentUpon>201702151354411_Initial2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702151356006_Initial3.resx">
+      <DependentUpon>201702151356006_Initial3.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702151412335_Initial4.resx">
+      <DependentUpon>201702151412335_Initial4.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702152224083_Initial5.resx">
+      <DependentUpon>201702152224083_Initial5.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\departments.csv" />
     <EmbeddedResource Include="Migrations\universities.csv" />
