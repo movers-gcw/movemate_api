@@ -248,15 +248,15 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MailSender.cs" />
-    <Compile Include="Migrations\201702141436237_Initial2.cs" />
-    <Compile Include="Migrations\201702141436237_Initial2.Designer.cs">
-      <DependentUpon>201702141436237_Initial2.cs</DependentUpon>
+    <Compile Include="Migrations\201702151118239_Initial.cs" />
+    <Compile Include="Migrations\201702151118239_Initial.Designer.cs">
+      <DependentUpon>201702151118239_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201702141521372_Initial3.cs" />
-    <Compile Include="Migrations\201702141521372_Initial3.Designer.cs">
-      <DependentUpon>201702141521372_Initial3.cs</DependentUpon>
+    <Compile Include="Migrations\201702151316586_Initial1.cs" />
+    <Compile Include="Migrations\201702151316586_Initial1.Designer.cs">
+      <DependentUpon>201702151316586_Initial1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Models\Pathblob.cs" />
+    <Compile Include="Models\PathCarBlob.cs" />
     <Compile Include="Controllers\PathsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
     <Compile Include="Controllers\TestStudentsController.cs" />
@@ -264,14 +264,6 @@
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702131554382_Initial.cs" />
-    <Compile Include="Migrations\201702131554382_Initial.Designer.cs">
-      <DependentUpon>201702131554382_Initial.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201702141206325_Initial1.cs" />
-    <Compile Include="Migrations\201702141206325_Initial1.Designer.cs">
-      <DependentUpon>201702141206325_Initial1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountBindingModels.cs" />
@@ -330,17 +322,11 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
-    <EmbeddedResource Include="Migrations\201702131554382_Initial.resx">
-      <DependentUpon>201702131554382_Initial.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702151118239_Initial.resx">
+      <DependentUpon>201702151118239_Initial.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702141206325_Initial1.resx">
-      <DependentUpon>201702141206325_Initial1.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702141436237_Initial2.resx">
-      <DependentUpon>201702141436237_Initial2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201702141521372_Initial3.resx">
-      <DependentUpon>201702141521372_Initial3.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201702151316586_Initial1.resx">
+      <DependentUpon>201702151316586_Initial1.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\departments.csv" />
     <EmbeddedResource Include="Migrations\universities.csv" />

@@ -21,7 +21,6 @@ namespace movemate_api.Models
         public Department Department { get; set; }
         public String FacebookId { get; set; }
         public String GoogleId { get; set; }
-        public List<Path> CreatedPaths { get; set; }
         public List<Path> JoinedPaths { get; set; }
 
       

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
 
@@ -13,7 +14,8 @@ namespace movemate_api.Models
         public double Latitude { get; set; }
         public double Longitude { get; set; }
         public String Address { get; set; }
-        public DateTime DateTime { get; set; }
-        public Section Section { get; set; }
+        public String DateTime { get; set; }
+        [Required]
+        public Path Path { get; set; }
     }
 }
