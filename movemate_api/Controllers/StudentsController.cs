@@ -37,41 +37,6 @@ namespace movemate_api.Controllers
             return Ok(student);
         }
 
-        // PUT: api/Students/5
-        [ResponseType(typeof(void))]
-        public IHttpActionResult PutStudent(int id, Student student)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-
-            if (id != student.StudentId)
-            {
-                return BadRequest();
-            }
-
-            db.Entry(student).State = EntityState.Modified;
-
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!StudentExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
-            }
-
-            return StatusCode(HttpStatusCode.NoContent);
-        }
-
         // POST: api/Students
         [ResponseType(typeof(Student))]
         public IHttpActionResult PostStudent(Student student)
@@ -86,29 +51,11 @@ namespace movemate_api.Controllers
                 MailSender.SendEmail(verify.Email, verify.VerificationCode);
                 return Ok();
             }
-            StudentFacade facade = new StudentFacade();
-            student = facade.AddVerificationCode(student);
+            student = StudentFacade.AddVerificationCode(student);
             MailSender.SendEmail(student.Email, student.VerificationCode);
             db.Students.Add(student);
             db.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = student.StudentId }, student);
-        }
-
-        // DELETE: api/Students/5
-        [ResponseType(typeof(Student))]
-        public IHttpActionResult DeleteStudent(int id)
-        {
-            Student student = db.Students.Find(id);
-
-            if (student == null)
-            {
-                return NotFound();
-            }
-
-            db.Students.Remove(student);
-            db.SaveChanges();
-
-            return Ok(student);
         }
 
         protected override void Dispose(bool disposing)
