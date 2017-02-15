@@ -19,7 +19,7 @@ namespace movemate_api.Controllers
         public IQueryable<Path> GetPaths()
         {
             List<Path> paths = new List<Path>();
-            foreach(Path p in db.Paths)
+            foreach (Path p in db.Paths)
             {
                 var path = new Path();
                 path.Maker = p.Maker;
@@ -30,73 +30,207 @@ namespace movemate_api.Controllers
             return paths.AsQueryable<Path>();
         }
 
+        public IQueryable<Path> GetMyPaths(int StudentId)
+        {
+            List<Path> paths = new List<Path>();
+            Student stud = db.Students.Find(StudentId);
+            foreach (Path p in db.Paths)
+            {
+                if (p.Maker == stud || p.Participants.Contains(stud))
+                {
+                    var path = new Path();
+                    path.Maker = p.Maker;
+                    path.PathId = p.PathId;
+                    path.PathName = p.PathName;
+                    paths.Add(path);
+                }
+            }
+            return paths.AsQueryable<Path>();
+        }
+
+        public IQueryable<Student> GetParticipants(int PathId)
+        {
+            Path path = db.Paths.Find(PathId);
+            if(path.Participants==null)
+            {
+                return null;
+            }
+            return path.Participants.AsQueryable<Student>();
+        }
+        public IHttpActionResult PostPathCar(int studentId, Boolean toFrom, String pathname, String date, int depId, String address, int seats, String price)
+        {
+            var student = db.Students.Find(studentId);
+            var path = new Path();
+            var start = new PointOfInterest();
+            var destination = new PointOfInterest();
+            start.DateTime = date;
+            if (toFrom)
+            {
+                start.Address = address;
+                destination.Address = db.Departments.Find(depId).Address;
+            }
+            else if (!toFrom)
+            {
+                destination.Address = address;
+                start.Address = db.Departments.Find(depId).Address;
+            }
+            path.Vehicle = 0;
+            path.AvailableSeats = seats;
+            db.Paths.Add(path);
+            start.Path = path;
+            destination.Path = path;
+            db.PointOfInterests.Add(start);
+            db.PointOfInterests.Add(destination);
+            db.SaveChanges();
+            path.Start = start;
+            path.Destination = destination;
+            path.Price = price;
+            path.PathName = pathname;
+            path.Maker = student;
+            db.Entry(path).State = EntityState.Modified;
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+            return Ok();
+        }
+
+        public IHttpActionResult PostPathCycle(int studentId, Boolean toFrom, String pathname, String date, int depId, String address, String price, Boolean head)
+        {
+            var student = db.Students.Find(studentId);
+            var path = new Path();
+            var start = new PointOfInterest();
+            var destination = new PointOfInterest();
+            start.DateTime = date;
+            if (toFrom)
+            {
+                start.Address = address;
+                destination.Address = db.Departments.Find(depId).Address;
+            }
+            else if (!toFrom)
+            {
+                destination.Address = address;
+                start.Address = db.Departments.Find(depId).Address;
+            }
+            path.Vehicle = 1;
+            path.AvailableHeadgear = head;
+            db.Paths.Add(path);
+            start.Path = path;
+            destination.Path = path;
+            db.PointOfInterests.Add(start);
+            db.PointOfInterests.Add(destination);
+            db.SaveChanges();
+            path.Start = start;
+            path.Destination = destination;
+            path.Price = price;
+            path.PathName = pathname;
+            path.Maker = student;
+            db.Entry(path).State = EntityState.Modified;
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+            return Ok();
+        }
+
+        public IHttpActionResult PostPathPub(int studentId, Boolean toFrom, String pathname, String date, int depId, String address, Boolean train, Boolean bus, Boolean metro, Boolean tram, String description)
+        {
+            var student = db.Students.Find(studentId);
+            var path = new Path();
+            var start = new PointOfInterest();
+            var destination = new PointOfInterest();
+            start.DateTime = date;
+            if (toFrom)
+            {
+                start.Address = address;
+                destination.Address = db.Departments.Find(depId).Address;
+            }
+            else if (!toFrom)
+            {
+                destination.Address = address;
+                start.Address = db.Departments.Find(depId).Address;
+            }
+            path.Vehicle = 2;
+            path.Description = description;
+            db.Paths.Add(path);
+            start.Path = path;
+            destination.Path = path;
+            db.PointOfInterests.Add(start);
+            db.PointOfInterests.Add(destination);
+            db.SaveChanges();
+            path.Start = start;
+            path.Destination = destination;
+            path.Train = train;
+            path.Bus = bus;
+            path.Tram = tram;
+            path.Metro = metro;
+            path.PathName = pathname;
+            path.Maker = student;
+            db.Entry(path).State = EntityState.Modified;
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+            return Ok();
+        }
         public IHttpActionResult PutJoinPath(int StudentId, int PathId)
         {
             var path = db.Paths.Find(PathId);
             var stud = db.Students.Find(StudentId);
-            if(path == null || stud == null)
+            if (path == null || stud == null)
             {
                 return BadRequest();
             }
-            stud.JoinedPaths.Add(path);
-            path.Participants.Add(stud);
+            if (stud.JoinedPaths == null)
+            {
+                List<Path> list = new List<Path>();
+                stud.JoinedPaths.Add(path);
+            }
+            else
+            {
+                stud.JoinedPaths.Add(path);
+            }
+            if (path.Participants == null)
+            {
+                List<Student> list = new List<Student>();
+                path.Participants.Add(stud);
+            }
+            else
+            {
+                path.Participants.Add(stud);
+            }
             db.Entry(path).State = EntityState.Modified;
             db.Entry(stud).State = EntityState.Modified;
+            db.SaveChanges();
             return Ok();
         }
-        public IHttpActionResult PostPath([FromBody] Pathblob blob)
+
+        public IHttpActionResult PutDisjoinPath(int StudentId, int PathId)
         {
-            var student = db.Students.Find(blob.StudentId);
-            var path = new Path();
-            path.PathName = blob.PathName;
-            var section = new Section();
-            var start = new PointOfInterest();
-            var destination = new PointOfInterest();
-            start.DateTime = DateTime.Parse(blob.Date);
-            if(blob.ToFrom)
+            var path = db.Paths.Find(PathId);
+            var stud = db.Students.Find(StudentId);
+            if (path == null || stud == null)
             {
-                start.Address = blob.Address;
-                destination.Address = db.Departments.Find(blob.DepId).Address;
+                return BadRequest();
             }
-            else if(!blob.ToFrom)
-            {
-                destination.Address = blob.Address;
-                start.Address = db.Departments.Find(blob.DepId).Address;
-            }
-            section.Vehicle = blob.Vehicle;
-            if(section.Vehicle == 0)
-            {
-                section.AvailableSeats = blob.Seats;
-            }
-            if(section.Vehicle == 1)
-            {
-                section.AvailableHeadgear = blob.Head;
-            }
-            if(section.Vehicle == 2)
-            {
-                section.Description = blob.Description;
-            }
-            section.Train = blob.Train;
-            section.Bus = blob.Bus;
-            section.Tram = blob.Tram;
-            section.Metro = blob.Metro;
-            section.Price = blob.Price;
-            section.Start = start;
-            section.Destination = destination;
-            start.Section = section;
-            destination.Section = section;
-            path.Sections.Add(section);
-            section.Path = path;
-            student.CreatedPaths.Add(path);
-            db.Entry(student).State = EntityState.Modified;
-            db.PointOfInterests.Add(start);
-            db.PointOfInterests.Add(destination);
-            db.Sections.Add(section);
-            db.Paths.Add(path);
+            path.Participants.Remove(stud);
+            stud.JoinedPaths.Remove(path);
+            db.Entry(path).State = EntityState.Modified;
+            db.Entry(stud).State = EntityState.Modified;
             db.SaveChanges();
-            return CreatedAtRoute("DefaultApi", new { id = path.PathId }, path);
+            return Ok();
         }
 
+        public IHttpActionResult DeletePath(int StudentId, int PathId)
+        {
+            var path = db.Paths.Find(PathId);
+            var stud = db.Students.Find(StudentId);
+            if (path == null || stud == null)
+            {
+                return BadRequest();
+            }
+            if (path.Maker != stud)
+            {
+                return BadRequest();
+            }
+            db.Paths.Remove(path);
+            db.SaveChanges();
+            return Ok();
+        }
         // GET: api/Paths/5
         [ResponseType(typeof(Path))]
         public IHttpActionResult GetPath(int id)
