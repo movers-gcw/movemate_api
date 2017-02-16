@@ -29,6 +29,7 @@ namespace movemate_api.Models
             path.DestinationAddress = app.Destination.Address;
             path.Description = app.Description;
             path.Seats = app.AvailableSeats;
+            path.Date = app.Start.DateTime;
             path.Price = app.Price;
             path.Train = app.Train;
             path.Bus = app.Bus;
