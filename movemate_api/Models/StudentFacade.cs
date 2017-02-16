@@ -40,9 +40,9 @@ namespace movemate_api.Models
             return view;
         }
 
-        public static List<StudentView> ViewFromParticipants(List<Student> students)
+        public static ICollection<StudentView> ViewFromParticipants(ICollection<Student> students)
         {
-            var list = new List<StudentView>();
+            var list = new HashSet<StudentView>();
             
             foreach(Student s in students)
             {
