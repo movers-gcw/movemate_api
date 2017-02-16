@@ -80,7 +80,7 @@ namespace movemate_api.Controllers
             {
                 return NotFound();
             }
-            return Ok();
+            return Ok(student.StudentId);
         }
         public IHttpActionResult PutStudentVerification(String facebookId, String code)
         {
@@ -106,7 +106,7 @@ namespace movemate_api.Controllers
                     }
                 }
 
-                return StatusCode(HttpStatusCode.NoContent);
+                return Ok(student.StudentId);
             }
             return StatusCode(HttpStatusCode.PreconditionFailed);
         }
