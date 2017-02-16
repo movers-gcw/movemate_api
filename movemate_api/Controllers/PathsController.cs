@@ -246,6 +246,10 @@ namespace movemate_api.Controllers
             {
                 return BadRequest();
             }
+            if(path.MakerId == stud.StudentId)
+            {
+                return StatusCode(HttpStatusCode.NoContent);
+            }
             path.Students.Add(stud);
             db.Entry(path).State = EntityState.Modified;
             db.SaveChanges();
