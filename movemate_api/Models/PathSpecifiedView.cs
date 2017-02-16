@@ -8,8 +8,7 @@ namespace movemate_api.Models
     public class PathSpecifiedView : PathView
     {
         public StudentView Maker { get; set; }
-        public List<StudentView> Participants { get; set; }
-        public String Price { get; set; }
+        public ICollection<StudentView> Participants { get; set; }
         public int Seats { get; set; }
         public Boolean Train { get; set; }
         public Boolean Bus { get; set; }

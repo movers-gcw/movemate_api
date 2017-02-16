@@ -11,7 +11,7 @@ namespace movemate_api.Models
     {
         public Path()
         {
-            this.Participants = new List<Student>();
+            this.Students = new HashSet<Student>();
         }
         public int PathId { get; set; }
         public String PathName { get; set; }
@@ -19,7 +19,7 @@ namespace movemate_api.Models
         public Student Maker { get; set; }
         [ForeignKey("Maker")]
         public int MakerId { get; set; }
-        public List<Student> Participants { get; set; }
+        public virtual ICollection<Student> Students { get; set; }
         public PointOfInterest Start { get; set; }
         public PointOfInterest Destination { get; set; }
         public int Vehicle { get; set; }

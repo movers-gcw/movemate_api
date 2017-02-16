@@ -273,6 +273,10 @@
     <Compile Include="Migrations\201702152224083_Initial5.Designer.cs">
       <DependentUpon>201702152224083_Initial5.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201702161321441_Initial6.cs" />
+    <Compile Include="Migrations\201702161321441_Initial6.Designer.cs">
+      <DependentUpon>201702161321441_Initial6.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\PathBlob.cs" />
     <Compile Include="Models\PathCarBlob.cs" />
     <Compile Include="Controllers\PathsController.cs" />
@@ -363,6 +367,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201702152224083_Initial5.resx">
       <DependentUpon>201702152224083_Initial5.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201702161321441_Initial6.resx">
+      <DependentUpon>201702161321441_Initial6.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\departments.csv" />
     <EmbeddedResource Include="Migrations\universities.csv" />

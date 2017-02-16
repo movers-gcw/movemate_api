@@ -12,5 +12,7 @@ namespace movemate_api.Models
         public int Vehicle { get; set; }
         public String StartAddress { get; set; }
         public String DestinationAddress { get; set; }
+        public String Date { get; set; }
+        public String Price { get; set; }
     }
 }

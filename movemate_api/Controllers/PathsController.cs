@@ -24,7 +24,7 @@ namespace movemate_api.Controllers
 
         public IQueryable<PathView> GetPaths()
         {
-            var paths = new List<PathView>();
+            var paths = new HashSet<PathView>();
             var path = new PathView();
             foreach (Path p in db.Paths.Include(p => p.Start)
                                        .Include(p => p.Destination))
@@ -37,48 +37,60 @@ namespace movemate_api.Controllers
 
         public IQueryable<PathView> GetMyPaths(int StudentId)
         {
-            var result = db.Paths.Include(p => p.Start)
+            var me = db.Students.Find(StudentId);
+            var created = db.Paths.Include(p => p.Start)
+                                  .Include(p => p.Destination)
+                                  .Include(p => p.Students)
+                                  .Where(p => p.MakerId == StudentId).ToList<Path>();
+            var joined = db.Paths.Include(p => p.Start)
                                  .Include(p => p.Destination)
-                                 .Where(p => p.MakerId == StudentId).ToList<Path>();
-            var paths = new List<PathView>();
-            foreach (Path p in result)
+                                 .Include(p => p.Students).ToList<Path>();
+            var result = new HashSet<PathView>();
+            foreach(Path p in joined)
+            {
+                if(p.Students.Contains(me))
+                {
+                    var view = PathFacade.ViewFromPath(p);
+                    result.Add(view);
+                }
+            }
+            foreach(Path p in created)
             {
                 var path = PathFacade.ViewFromPath(p);
-                paths.Add(path);
+                result.Add(path);
             }
-            return paths.AsQueryable<PathView>();
+            return result.AsQueryable<PathView>();
         }
 
-        public IQueryable<PathSpecifiedView> GetPath(int PathId)
+        public IHttpActionResult GetPath(int PathId)
         {
             var path = new PathSpecifiedView();
 
             Path app = db.Paths.Include(p => p.Start)
                                .Include(p => p.Destination)
+                               .Include(p => p.Students)
                                .Where(p => p.PathId == PathId).FirstOrDefault();
             path = PathFacade.ViewFromPathSpecified(app);
             Student m = db.Students.Find(app.MakerId);
             var view = StudentFacade.ViewFromStudent(m);
             path.Maker = view;
-            if (app.Participants != null)
+            if (app.Students != null)
             {
-                path.Participants = StudentFacade.ViewFromParticipants(app.Participants);
+                path.Participants = StudentFacade.ViewFromParticipants(app.Students);
             }
-            var result = new List<PathSpecifiedView>();
-            result.Add(path);
-            return result.AsQueryable<PathSpecifiedView>();
+            return Ok(path);
 
         }
         public IQueryable<Student> GetParticipants(int PathId)
         {
-            Path path = db.Paths.Include(p => p.Participants)
+            Path path = db.Paths.Include(p => p.Students)
                                 .Where(p => p.PathId == PathId)
                                 .FirstOrDefault<Path>();
-            if (path.Participants == null)
+            if (path.Students == null)
             {
                 return null;
             }
-            return path.Participants.AsQueryable<Student>();
+            return path.Students.AsQueryable<Student>();
         }
         public IHttpActionResult PostPathCar(PathCarBlob blob)
         {
@@ -114,7 +126,7 @@ namespace movemate_api.Controllers
             db.Entry(path).State = EntityState.Modified;
             if (student.CreatedPaths == null)
             {
-                student.CreatedPaths = new List<Path>();
+                student.CreatedPaths = new HashSet<Path>();
                 student.CreatedPaths.Add(path);
             }
             else
@@ -160,7 +172,7 @@ namespace movemate_api.Controllers
             db.Entry(path).State = EntityState.Modified;
             if (student.CreatedPaths == null)
             {
-                student.CreatedPaths = new List<Path>();
+                student.CreatedPaths = new HashSet<Path>();
                 student.CreatedPaths.Add(path);
             }
             else
@@ -196,6 +208,7 @@ namespace movemate_api.Controllers
             path.Description = blob.Description;
             path.PathName = blob.PathName;
             path.Vehicle = 2;
+            path.Price = "0";
             start.Path = path;
             destination.Path = path;
             path.Maker = student;
@@ -209,7 +222,7 @@ namespace movemate_api.Controllers
             db.Entry(path).State = EntityState.Modified;
             if (student.CreatedPaths == null)
             {
-                student.CreatedPaths = new List<Path>();
+                student.CreatedPaths = new HashSet<Path>();
                 student.CreatedPaths.Add(path);
             }
             else
@@ -222,42 +235,41 @@ namespace movemate_api.Controllers
         }
         public IHttpActionResult PutJoinPath(int StudentId, int PathId)
         {
-            var path = db.Paths.Include(p => p.Participants)
+            var path = db.Paths.Include(p => p.Students)
+                               .Include(p => p.Maker)
                                .Where(p => p.PathId == PathId)
                                .FirstOrDefault<Path>(); ;
-            var stud = db.Students.Include(s => s.JoinedPaths)
+            var stud = db.Students.Include(s => s.Paths)
                                   .Where(s => s.StudentId == StudentId)
                                   .FirstOrDefault<Student>();
-            var maker = db.Students.Where(s => s.StudentId == path.MakerId).FirstOrDefault<Student>();
             if (path == null || stud == null)
             {
                 return BadRequest();
             }
-            path.Maker = maker;
-            stud.JoinedPaths.Add(path);
-            path.Participants.Add(stud);
-            db.Entry(stud).State = EntityState.Modified;
+            path.Students.Add(stud);
             db.Entry(path).State = EntityState.Modified;
+            db.SaveChanges();
+            stud.Paths.Add(path);
+            db.Entry(stud).State = EntityState.Modified;
             db.SaveChanges();
             return Ok();
         }
 
         public IHttpActionResult PutDisjoinPath(int StudentId, int PathId)
         {
-            var path = db.Paths.Include(p => p.Participants)
+            var path = db.Paths.Include(p => p.Students)
+                               .Include(p => p.Maker)
                                .Where(p => p.PathId == PathId)
                                .FirstOrDefault<Path>(); ;
-            var stud = db.Students.Include(s => s.JoinedPaths)
+            var stud = db.Students.Include(s => s.Paths)
                                   .Where(s => s.StudentId == StudentId)
                                   .FirstOrDefault<Student>();
-            var maker = db.Students.Where(s => s.StudentId == path.MakerId).FirstOrDefault<Student>();
             if (path == null || stud == null)
             {
                 return BadRequest();
             }
-            path.Maker = maker;
-            path.Participants.Remove(stud);
-            stud.JoinedPaths.Remove(path);
+            path.Students.Remove(stud);
+            stud.Paths.Remove(path);
             db.Entry(stud).State = EntityState.Modified;
             db.Entry(path).State = EntityState.Modified;
             db.SaveChanges();
@@ -266,7 +278,9 @@ namespace movemate_api.Controllers
 
         public IHttpActionResult DeletePath(int StudentId, int PathId)
         {
-            var path = db.Paths.Find(PathId);
+            var path = db.Paths.Include(p => p.Students)
+                               .Where(p => p.PathId == PathId)
+                               .FirstOrDefault<Path>();
             var stud = db.Students.Find(StudentId);
             if (path == null || stud == null)
             {
@@ -277,11 +291,11 @@ namespace movemate_api.Controllers
                 return BadRequest();
             }
             stud.CreatedPaths.Remove(path);
-            if (path.Participants != null)
+            if (path.Students != null)
             {
-                foreach (Student s in path.Participants)
+                foreach (Student s in path.Students)
                 {
-                    s.JoinedPaths.Remove(path);
+                    s.Paths.Remove(path);
                 }
             }
             db.Paths.Remove(path);
