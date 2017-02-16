@@ -1,4 +1,5 @@
-﻿using System.Security.Claims;
+﻿using System.Data.Entity;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
@@ -33,6 +34,23 @@ namespace movemate_api.Models
         public System.Data.Entity.DbSet<movemate_api.Models.Student> Students { get; set; }
         public System.Data.Entity.DbSet<movemate_api.Models.University> Universities { get; set; }
         public System.Data.Entity.DbSet<movemate_api.Models.Department> Departments { get; set; }
-        public System.Data.Entity.DbSet<movemate_api.Models.PointOfInterest> PointsOfInterest { get; set; }
+        public System.Data.Entity.DbSet<movemate_api.Models.PointOfInterest> PointOfInterests { get; set; }
+        public System.Data.Entity.DbSet<movemate_api.Models.Path> Paths { get; set; }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+
+           modelBuilder.Entity<Student>()
+                        .HasMany<Path>(s => s.Paths)
+                        .WithMany(p => p.Students)
+                        .Map(x =>
+                        {
+                            x.MapLeftKey("StudentId");
+                            x.MapRightKey("PathId");
+                            x.ToTable("StudentJoinedPaths");
+                        });
+                        
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
