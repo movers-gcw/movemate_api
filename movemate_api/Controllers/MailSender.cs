@@ -13,7 +13,7 @@ namespace movemate_api.Controllers
         {
             SmtpClient client = new SmtpClient("smtp.gmail.com", 587);
             client.UseDefaultCredentials = false;
-            client.Credentials = new System.Net.NetworkCredential("unimovemate@gmail.com", "tyqjqqoulizihbix"); // vera password su onedrive
+            client.Credentials = new System.Net.NetworkCredential("unimovemate@gmail.com", ""); // vera password su onedrive
             client.EnableSsl = true;
             client.DeliveryMethod = System.Net.Mail.SmtpDeliveryMethod.Network;
             MailMessage mail = new MailMessage("unimovemate@gmail.com", email);
