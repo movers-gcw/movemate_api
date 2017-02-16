@@ -12,8 +12,8 @@ namespace movemate_api.Models
         
         public Student()
         {
-            this.CreatedPaths = new List<Path>();
-            this.JoinedPaths = new List<Path>();
+            this.CreatedPaths = new HashSet<Path>();
+            this.Paths = new HashSet<Path>();
         }
         public int StudentId { get; set; }
         public String Name { get; set; }
@@ -25,8 +25,8 @@ namespace movemate_api.Models
         public Department Department { get; set; }
         public String FacebookId { get; set; }
         public String GoogleId { get; set; }
-        public List<Path> CreatedPaths { get; set; }
-        public List<Path> JoinedPaths { get; set; }
+        public virtual ICollection<Path> CreatedPaths { get; set; }
+        public virtual ICollection<Path> Paths { get; set; }
 
       
     }

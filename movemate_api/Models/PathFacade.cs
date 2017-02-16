@@ -10,27 +10,23 @@ namespace movemate_api.Models
         public static PathView ViewFromPath(Path p)
         {
             var path = new PathView();
-            var poi = new PointOfInterest();
-            poi = p.Start;
-            path.StartAddress = poi.Address;
-            poi = p.Destination;
-            path.DestinationAddress = poi.Address;
+            path.StartAddress = p.Start.Address;
+            path.DestinationAddress = p.Destination.Address;
             path.PathId = p.PathId;
             path.PathName = p.PathName;
             path.Vehicle = p.Vehicle;
+            path.Price = p.Price;
+            path.Date = p.Start.DateTime;
             return path;
         }
 
         public static PathSpecifiedView ViewFromPathSpecified(Path app)
         {
             var path = new PathSpecifiedView();
-            var poi = new PointOfInterest();
             path.PathName = app.PathName;
             path.Vehicle = app.Vehicle;
-            poi = app.Start;
-            path.StartAddress = poi.Address;
-            poi = app.Destination;
-            path.DestinationAddress = poi.Address;
+            path.StartAddress = app.Start.Address;
+            path.DestinationAddress = app.Destination.Address;
             path.Description = app.Description;
             path.Seats = app.AvailableSeats;
             path.Price = app.Price;
