@@ -102,16 +102,25 @@ namespace movemate_api.Controllers
             if (blob.ToFrom)
             {
                 start.Address = blob.Address;
-                destination.Address = db.Departments.Find(blob.DepId).Address;
+                //destination.Address = db.Departments.Find(blob.DepId).Address;
+                var dep = db.Departments.Find(blob.DepId);
+                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                add += " - " + dep.DepartmentName;
+                destination.Address = add;
             }
             else if (!blob.ToFrom)
             {
                 destination.Address = blob.Address;
-                start.Address = db.Departments.Find(blob.DepId).Address;
+                //start.Address = db.Departments.Find(blob.DepId).Address;
+                var dep = db.Departments.Find(blob.DepId);
+                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                add += " - " + dep.DepartmentName;
+                start.Address = add;
             }
             path.Price = blob.Price;
             path.PathName = blob.PathName;
             path.Vehicle = 0;
+            path.Description = blob.Description;
             path.AvailableSeats = blob.Seats;
             start.Path = path;
             destination.Path = path;
@@ -148,16 +157,25 @@ namespace movemate_api.Controllers
             if (blob.ToFrom)
             {
                 start.Address = blob.Address;
-                destination.Address = db.Departments.Find(blob.DepId).Address;
+                //destination.Address = db.Departments.Find(blob.DepId).Address;
+                var dep = db.Departments.Find(blob.DepId);
+                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                add += " - " + dep.DepartmentName;
+                destination.Address = add;
             }
             else if (!blob.ToFrom)
             {
                 destination.Address = blob.Address;
-                start.Address = db.Departments.Find(blob.DepId).Address;
+                //start.Address = db.Departments.Find(blob.DepId).Address;
+                var dep = db.Departments.Find(blob.DepId);
+                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                add += " - " + dep.DepartmentName;
+                start.Address = add;
             }
             path.Price = blob.Price;
             path.PathName = blob.PathName;
             path.Vehicle = 1;
+            path.Description = blob.Description;
             path.AvailableHeadgear = blob.Head;
             start.Path = path;
             destination.Path = path;
@@ -194,12 +212,20 @@ namespace movemate_api.Controllers
             if (blob.ToFrom)
             {
                 start.Address = blob.Address;
-                destination.Address = db.Departments.Find(blob.DepId).Address;
+                //destination.Address = db.Departments.Find(blob.DepId).Address;
+                var dep = db.Departments.Find(blob.DepId);
+                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                add += " - " + dep.DepartmentName;
+                destination.Address = add;
             }
             else if (!blob.ToFrom)
             {
                 destination.Address = blob.Address;
-                start.Address = db.Departments.Find(blob.DepId).Address;
+                //start.Address = db.Departments.Find(blob.DepId).Address;
+                var dep = db.Departments.Find(blob.DepId);
+                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                add += " - " + dep.DepartmentName;
+                start.Address = add;
             }
             path.Train = blob.Train;
             path.Bus = blob.Bus;

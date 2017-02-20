@@ -14,5 +14,6 @@ namespace movemate_api.Models
         public int DepId { get; set; }
         public String Address { get; set; }
         public int Vehicle { get; set; }
+        public String Description { get; set; }
     }
 }
