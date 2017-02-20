@@ -20,7 +20,10 @@ namespace movemate_api.Controllers
         // GET: api/Students
         public IQueryable<Student> GetStudents()
         {
-            return db.Students;
+            return db.Students.Include(s => s.CreatedPaths)
+                .Include(s => s.Paths)
+                .Include(s => s.University)
+                .Include(s => s.Department);
         }
 
         // GET: api/Students/5
@@ -118,6 +121,29 @@ namespace movemate_api.Controllers
                 return NotFound();
             }
             return Ok(student.StudentId);
+        }
+
+        public IHttpActionResult PutPhotoUrl(int id, String url)
+        {
+            var student = db.Students.Find(id);
+            if (student == null)
+            {
+                return NotFound();
+            }
+            student.PhotoUrl = url;
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+            return Ok(student);
+        }
+
+        public IHttpActionResult GetPhotoUrl(int id)
+        {
+            var student = db.Students.Find(id);
+            if(student == null)
+            {
+                return NotFound();
+            }
+            return Ok(student.PhotoUrl);
         }
 
     }
