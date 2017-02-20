@@ -11,6 +11,5 @@ namespace movemate_api.Models
         public Boolean Bus { get; set; }
         public Boolean Metro { get; set; }
         public Boolean Tram { get; set; }
-        public String Description { get; set; }
     }
 }

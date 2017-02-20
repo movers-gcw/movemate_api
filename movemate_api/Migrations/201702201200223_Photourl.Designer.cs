@@ -7,13 +7,13 @@ namespace movemate_api.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class Initial2 : IMigrationMetadata
+    public sealed partial class Photourl : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(Initial2));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(Photourl));
         
         string IMigrationMetadata.Id
         {
-            get { return "201702151354411_Initial2"; }
+            get { return "201702201200223_Photourl"; }
         }
         
         string IMigrationMetadata.Source
