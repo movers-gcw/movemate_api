@@ -20,10 +20,7 @@ namespace movemate_api.Controllers
         // GET: api/Students
         public IQueryable<Student> GetStudents()
         {
-            return db.Students.Include(s => s.CreatedPaths)
-                .Include(s => s.Paths)
-                .Include(s => s.University)
-                .Include(s => s.Department);
+            return db.Students;
         }
 
         // GET: api/Students/5

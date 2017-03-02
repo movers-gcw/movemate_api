@@ -20,8 +20,10 @@ namespace movemate_api.Models
         [ForeignKey("Maker")]
         public int MakerId { get; set; }
         public virtual ICollection<Student> Students { get; set; }
+        public Boolean ToFrom { get; set; }
         public PointOfInterest Start { get; set; }
         public PointOfInterest Destination { get; set; }
+        public String DepartmentAddress { get; set; }
         public int Vehicle { get; set; }
         public Boolean Train { get; set; }
         public Boolean Bus { get; set; }

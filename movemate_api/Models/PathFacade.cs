@@ -12,6 +12,8 @@ namespace movemate_api.Models
             var path = new PathView();
             path.StartAddress = p.Start.Address;
             path.DestinationAddress = p.Destination.Address;
+            path.ToFrom = p.ToFrom;
+            path.DepartmentAddress = p.DepartmentAddress;
             path.PathId = p.PathId;
             path.PathName = p.PathName;
             path.Vehicle = p.Vehicle;
@@ -27,6 +29,8 @@ namespace movemate_api.Models
             path.Vehicle = app.Vehicle;
             path.StartAddress = app.Start.Address;
             path.DestinationAddress = app.Destination.Address;
+            path.ToFrom = app.ToFrom;
+            path.DepartmentAddress = app.DepartmentAddress;
             path.Description = app.Description;
             path.Seats = app.AvailableSeats;
             path.Date = app.Start.DateTime;

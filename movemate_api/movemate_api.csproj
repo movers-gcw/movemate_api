@@ -253,6 +253,18 @@
     <Compile Include="Migrations\201702201200223_Photourl.Designer.cs">
       <DependentUpon>201702201200223_Photourl.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703021808595_Initial.cs" />
+    <Compile Include="Migrations\201703021808595_Initial.Designer.cs">
+      <DependentUpon>201703021808595_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703021821319_Initial1.cs" />
+    <Compile Include="Migrations\201703021821319_Initial1.Designer.cs">
+      <DependentUpon>201703021821319_Initial1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201703021838341_Initial2.cs" />
+    <Compile Include="Migrations\201703021838341_Initial2.Designer.cs">
+      <DependentUpon>201703021838341_Initial2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\PathBlob.cs" />
     <Compile Include="Models\PathCarBlob.cs" />
     <Compile Include="Controllers\PathsController.cs" />
@@ -328,6 +340,15 @@
     <Content Include="Content\bootstrap-theme.css.map" />
     <EmbeddedResource Include="Migrations\201702201200223_Photourl.resx">
       <DependentUpon>201702201200223_Photourl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703021808595_Initial.resx">
+      <DependentUpon>201703021808595_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703021821319_Initial1.resx">
+      <DependentUpon>201703021821319_Initial1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703021838341_Initial2.resx">
+      <DependentUpon>201703021838341_Initial2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\departments.csv" />
     <EmbeddedResource Include="Migrations\universities.csv" />
