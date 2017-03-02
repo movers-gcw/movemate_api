@@ -99,12 +99,13 @@ namespace movemate_api.Controllers
             var start = new PointOfInterest();
             var destination = new PointOfInterest();
             start.DateTime = blob.Date;
+            var dep = db.Departments.Find(blob.DepId);
+            var uni = db.Universities.Find(dep.University.UniversityId);
             if (blob.ToFrom)
             {
                 start.Address = blob.Address;
                 //destination.Address = db.Departments.Find(blob.DepId).Address;
-                var dep = db.Departments.Find(blob.DepId);
-                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 destination.Address = add;
             }
@@ -112,11 +113,12 @@ namespace movemate_api.Controllers
             {
                 destination.Address = blob.Address;
                 //start.Address = db.Departments.Find(blob.DepId).Address;
-                var dep = db.Departments.Find(blob.DepId);
-                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
+            path.DepartmentAddress = dep.Address;
+            path.ToFrom = blob.ToFrom;
             path.Price = blob.Price;
             path.PathName = blob.PathName;
             path.Vehicle = 0;
@@ -154,12 +156,13 @@ namespace movemate_api.Controllers
             var start = new PointOfInterest();
             var destination = new PointOfInterest();
             start.DateTime = blob.Date;
+            var dep = db.Departments.Find(blob.DepId);
+            var uni = db.Universities.Find(dep.University.UniversityId);
             if (blob.ToFrom)
             {
                 start.Address = blob.Address;
                 //destination.Address = db.Departments.Find(blob.DepId).Address;
-                var dep = db.Departments.Find(blob.DepId);
-                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 destination.Address = add;
             }
@@ -167,11 +170,12 @@ namespace movemate_api.Controllers
             {
                 destination.Address = blob.Address;
                 //start.Address = db.Departments.Find(blob.DepId).Address;
-                var dep = db.Departments.Find(blob.DepId);
-                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
+            path.DepartmentAddress = dep.Address;
+            path.ToFrom = blob.ToFrom;
             path.Price = blob.Price;
             path.PathName = blob.PathName;
             path.Vehicle = 1;
@@ -209,12 +213,13 @@ namespace movemate_api.Controllers
             var start = new PointOfInterest();
             var destination = new PointOfInterest();
             start.DateTime = blob.Date;
+            var dep = db.Departments.Find(blob.DepId);
+            var uni = db.Universities.Find(dep.University.UniversityId);
             if (blob.ToFrom)
             {
                 start.Address = blob.Address;
                 //destination.Address = db.Departments.Find(blob.DepId).Address;
-                var dep = db.Departments.Find(blob.DepId);
-                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 destination.Address = add;
             }
@@ -222,11 +227,12 @@ namespace movemate_api.Controllers
             {
                 destination.Address = blob.Address;
                 //start.Address = db.Departments.Find(blob.DepId).Address;
-                var dep = db.Departments.Find(blob.DepId);
-                String add = db.Universities.Where(u => u.DepartmentList.Contains(dep)).FirstOrDefault().UniversityName;
+                String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
+            path.DepartmentAddress = dep.Address;
+            path.ToFrom = blob.ToFrom;
             path.Train = blob.Train;
             path.Bus = blob.Bus;
             path.Metro = blob.Metro;
