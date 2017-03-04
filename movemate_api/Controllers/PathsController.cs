@@ -35,6 +35,26 @@ namespace movemate_api.Controllers
             return paths.AsQueryable<PathView>();
         }
 
+        public IQueryable<PathView> GetFilteredPaths(Boolean ToFrom, [FromUri] int[] Vehicle, String Price)
+        {
+            var paths = new HashSet<PathView>();
+            var path = new PathView();
+
+            foreach (Path p in db.Paths.Include(p => p.Start)
+                                       .Include(p => p.Destination))
+            {
+                int price = Int32.Parse(p.Price);
+                int desiredprice = Int32.Parse(Price);
+                if (p.ToFrom == ToFrom && Vehicle.Contains(p.Vehicle) && price <= desiredprice)
+                {
+                    path = PathFacade.ViewFromPath(p);
+                    paths.Add(path);
+                }
+            }
+            return paths.AsQueryable<PathView>();
+        }
+
+
         public IQueryable<PathView> GetMyPaths(int StudentId)
         {
             var me = db.Students.Find(StudentId);
@@ -46,15 +66,15 @@ namespace movemate_api.Controllers
                                  .Include(p => p.Destination)
                                  .Include(p => p.Students).ToList<Path>();
             var result = new HashSet<PathView>();
-            foreach(Path p in joined)
+            foreach (Path p in joined)
             {
-                if(p.Students.Contains(me))
+                if (p.Students.Contains(me))
                 {
                     var view = PathFacade.ViewFromPath(p);
                     result.Add(view);
                 }
             }
-            foreach(Path p in created)
+            foreach (Path p in created)
             {
                 var path = PathFacade.ViewFromPath(p);
                 result.Add(path);
@@ -278,7 +298,7 @@ namespace movemate_api.Controllers
             {
                 return BadRequest();
             }
-            if(path.MakerId == stud.StudentId)
+            if (path.MakerId == stud.StudentId)
             {
                 return StatusCode(HttpStatusCode.NoContent);
             }
