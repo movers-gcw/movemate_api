@@ -39,7 +39,6 @@ namespace movemate_api.Controllers
         {
             var paths = new HashSet<PathView>();
             var path = new PathView();
-
             foreach (Path p in db.Paths.Include(p => p.Start)
                                        .Include(p => p.Destination))
             {
@@ -53,7 +52,6 @@ namespace movemate_api.Controllers
             }
             return paths.AsQueryable<PathView>();
         }
-
 
         public IQueryable<PathView> GetMyPaths(int StudentId)
         {
@@ -85,7 +83,6 @@ namespace movemate_api.Controllers
         public IHttpActionResult GetPath(int PathId)
         {
             var path = new PathSpecifiedView();
-
             Path app = db.Paths.Include(p => p.Start)
                                .Include(p => p.Destination)
                                .Include(p => p.Students)
