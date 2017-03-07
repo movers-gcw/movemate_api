@@ -35,22 +35,53 @@ namespace movemate_api.Controllers
             return paths.AsQueryable<PathView>();
         }
 
-        public IQueryable<PathView> GetFilteredPaths(Boolean ToFrom, [FromUri] int[] Vehicle, String Price)
+        public IQueryable<PathView> GetFilteredPaths(Boolean ToFrom, int DepId, [FromUri] int[] Vehicle, String Price)
         {
             var paths = new HashSet<PathView>();
             var path = new PathView();
-            foreach (Path p in db.Paths.Include(p => p.Start)
-                                       .Include(p => p.Destination))
+            if (DepId == 0)
             {
-                int price = Int32.Parse(p.Price);
-                int desiredprice = Int32.Parse(Price);
-                if (p.ToFrom == ToFrom && Vehicle.Contains(p.Vehicle) && price <= desiredprice)
+                foreach (Path p in db.Paths.Include(p => p.Start)
+                                           .Include(p => p.Destination))
                 {
-                    path = PathFacade.ViewFromPath(p);
-                    paths.Add(path);
+                    Filter(ToFrom, Vehicle, Price, p, paths);
+                }
+            }
+            else
+            {
+                if(ToFrom)
+                {
+                    Department dep = db.Departments.Find(DepId);
+                    foreach (Path p in db.Paths.Include(p => p.Start)
+                                           .Include(p => p.Destination)
+                                           .Where(p => p.Destination.Address.Contains(dep.DepartmentName)))
+                    {
+                        Filter(ToFrom, Vehicle, Price, p, paths);
+                    }
+                }
+                else
+                {
+                    Department dep = db.Departments.Find(DepId);
+                    foreach (Path p in db.Paths.Include(p => p.Start)
+                                           .Include(p => p.Destination)
+                                           .Where(p => p.Start.Address.Contains(dep.DepartmentName)))
+                    {
+                        Filter(ToFrom, Vehicle, Price, p, paths);
+                    }
                 }
             }
             return paths.AsQueryable<PathView>();
+        }
+
+        private void Filter(Boolean ToFrom, int[] Vehicle, String Price, Path p, HashSet<PathView> paths)
+        {
+            int price = Int32.Parse(p.Price);
+            int desiredprice = Int32.Parse(Price);
+            if (p.ToFrom == ToFrom && Vehicle.Contains(p.Vehicle) && price <= desiredprice)
+            {
+                var path = PathFacade.ViewFromPath(p);
+                paths.Add(path);
+            }
         }
 
         public IQueryable<PathView> GetMyPaths(int StudentId)
