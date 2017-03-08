@@ -49,7 +49,7 @@ namespace movemate_api.Controllers
             }
             else
             {
-                if(ToFrom)
+                if (ToFrom)
                 {
                     Department dep = db.Departments.Find(DepId);
                     foreach (Path p in db.Paths.Include(p => p.Start)
@@ -152,7 +152,6 @@ namespace movemate_api.Controllers
             if (blob.ToFrom)
             {
                 start.Address = blob.Address;
-                //destination.Address = db.Departments.Find(blob.DepId).Address;
                 String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 destination.Address = add;
@@ -160,13 +159,13 @@ namespace movemate_api.Controllers
             else if (!blob.ToFrom)
             {
                 destination.Address = blob.Address;
-                //start.Address = db.Departments.Find(blob.DepId).Address;
                 String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
             path.DepartmentAddress = dep.Address;
             path.ToFrom = blob.ToFrom;
+            path.Open = true;
             path.Price = blob.Price;
             path.PathName = blob.PathName;
             path.Vehicle = 0;
@@ -209,7 +208,6 @@ namespace movemate_api.Controllers
             if (blob.ToFrom)
             {
                 start.Address = blob.Address;
-                //destination.Address = db.Departments.Find(blob.DepId).Address;
                 String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 destination.Address = add;
@@ -217,13 +215,13 @@ namespace movemate_api.Controllers
             else if (!blob.ToFrom)
             {
                 destination.Address = blob.Address;
-                //start.Address = db.Departments.Find(blob.DepId).Address;
                 String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
             path.DepartmentAddress = dep.Address;
             path.ToFrom = blob.ToFrom;
+            path.Open = true;
             path.Price = blob.Price;
             path.PathName = blob.PathName;
             path.Vehicle = 1;
@@ -266,7 +264,6 @@ namespace movemate_api.Controllers
             if (blob.ToFrom)
             {
                 start.Address = blob.Address;
-                //destination.Address = db.Departments.Find(blob.DepId).Address;
                 String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 destination.Address = add;
@@ -274,13 +271,13 @@ namespace movemate_api.Controllers
             else if (!blob.ToFrom)
             {
                 destination.Address = blob.Address;
-                //start.Address = db.Departments.Find(blob.DepId).Address;
                 String add = uni.UniversityName;
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
             path.DepartmentAddress = dep.Address;
             path.ToFrom = blob.ToFrom;
+            path.Open = true;
             path.Train = blob.Train;
             path.Bus = blob.Bus;
             path.Metro = blob.Metro;
@@ -386,21 +383,25 @@ namespace movemate_api.Controllers
             db.SaveChanges();
             return Ok();
         }
-        // GET: api/Paths/5
-        [ResponseType(typeof(Path))]
 
-        protected override void Dispose(bool disposing)
+        public IHttpActionResult PutClosePath(int StudentId, int PathId)
         {
-            if (disposing)
+            var path = db.Paths.Include(p => p.Students)
+                               .Where(p => p.PathId == PathId)
+                               .FirstOrDefault<Path>();
+            var stud = db.Students.Find(StudentId);
+            if (path == null || stud == null)
             {
-                db.Dispose();
+                return BadRequest();
             }
-            base.Dispose(disposing);
-        }
-
-        private bool PathExists(int id)
-        {
-            return db.Paths.Count(e => e.PathId == id) > 0;
+            if (path.Maker != stud)
+            {
+                return BadRequest();
+            }
+            path.Open = false;
+            db.Entry(path).State = EntityState.Modified;
+            db.SaveChanges();
+            return Ok();
         }
     }
 }

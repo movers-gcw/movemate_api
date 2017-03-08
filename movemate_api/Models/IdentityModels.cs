@@ -36,6 +36,7 @@ namespace movemate_api.Models
         public System.Data.Entity.DbSet<movemate_api.Models.Department> Departments { get; set; }
         public System.Data.Entity.DbSet<movemate_api.Models.PointOfInterest> PointOfInterests { get; set; }
         public System.Data.Entity.DbSet<movemate_api.Models.Path> Paths { get; set; }
+        public System.Data.Entity.DbSet<movemate_api.Models.Feedback> Feedbacks { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

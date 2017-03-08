@@ -248,7 +248,6 @@
     <Compile Include="Controllers\DepartmentsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MailSender.cs" />
-    <Compile Include="Controllers\PointOfInterestsController.cs" />
     <Compile Include="Migrations\201702201200223_Photourl.cs" />
     <Compile Include="Migrations\201702201200223_Photourl.Designer.cs">
       <DependentUpon>201702201200223_Photourl.cs</DependentUpon>
@@ -265,11 +264,15 @@
     <Compile Include="Migrations\201703021838341_Initial2.Designer.cs">
       <DependentUpon>201703021838341_Initial2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201703081709147_Initial3.cs" />
+    <Compile Include="Migrations\201703081709147_Initial3.Designer.cs">
+      <DependentUpon>201703081709147_Initial3.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\PathBlob.cs" />
     <Compile Include="Models\PathCarBlob.cs" />
     <Compile Include="Controllers\PathsController.cs" />
     <Compile Include="Controllers\StudentsController.cs" />
-    <Compile Include="Controllers\TestStudentsController.cs" />
     <Compile Include="Controllers\UniversitiesController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
@@ -289,6 +292,7 @@
     <Compile Include="Models\PointOfInterest.cs" />
     <Compile Include="Models\Section.cs" />
     <Compile Include="Models\StudentFacade.cs" />
+    <Compile Include="Models\StudentSpecifiedView.cs" />
     <Compile Include="Models\StudentView.cs" />
     <Compile Include="Models\University.cs" />
     <Compile Include="Models\Student.cs" />
@@ -349,6 +353,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201703021838341_Initial2.resx">
       <DependentUpon>201703021838341_Initial2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201703081709147_Initial3.resx">
+      <DependentUpon>201703081709147_Initial3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\departments.csv" />
     <EmbeddedResource Include="Migrations\universities.csv" />

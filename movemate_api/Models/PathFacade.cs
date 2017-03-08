@@ -19,6 +19,7 @@ namespace movemate_api.Models
             path.Vehicle = p.Vehicle;
             path.Price = p.Price;
             path.Date = p.Start.DateTime;
+            path.Open = p.Open;
             return path;
         }
 
@@ -40,6 +41,7 @@ namespace movemate_api.Models
             path.Metro = app.Metro;
             path.Tram = app.Tram;
             path.Head = app.AvailableHeadgear;
+            path.Open = app.Open;
             return path;
         }
     }

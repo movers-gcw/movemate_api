@@ -30,18 +30,5 @@ namespace movemate_api.Controllers
             var unis = app.AsQueryable<University>();
             return unis;
         }
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool UniversityExists(int id)
-        {
-            return db.Universities.Count(e => e.UniversityId == id) > 0;
-        }
     }
 }

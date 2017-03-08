@@ -21,6 +21,7 @@ namespace movemate_api.Models
         public int MakerId { get; set; }
         public virtual ICollection<Student> Students { get; set; }
         public Boolean ToFrom { get; set; }
+        public Boolean Open { get; set; }
         public PointOfInterest Start { get; set; }
         public PointOfInterest Destination { get; set; }
         public String DepartmentAddress { get; set; }
@@ -33,5 +34,6 @@ namespace movemate_api.Models
         public String Description { get; set; }
         public int AvailableSeats { get; set; }
         public Boolean AvailableHeadgear { get; set; }
+        //public ICollection<int> Blacklist { get; set; } blacklista un id studente per impedirgli di mettere altri feedback, da implementare nel post feedback
     }
 }

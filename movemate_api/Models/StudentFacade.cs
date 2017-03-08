@@ -37,9 +37,32 @@ namespace movemate_api.Models
             view.Surname = student.Surname;
             view.Email = student.Email;
             view.StudentId = student.StudentId;
+            double sum = 0;
+            double count = student.Feedbacks.Count();
+            foreach(Feedback f in student.Feedbacks)
+            {
+                sum += f.Rate;
+            }
+            if (count == 0)
+            {
+                view.TotalFeedback = 6;
+            }
+            else
+            {
+                view.TotalFeedback = sum / count;
+            }
             return view;
         }
 
+        public static StudentSpecifiedView ViewFromSpecifiedStudent(Student student)
+        {
+            var view = new StudentSpecifiedView();
+            view.Name = student.Name;
+            view.Surname = student.Surname;
+            view.Email = student.Email;
+            view.StudentId = student.StudentId;
+            return view;
+        }
         public static ICollection<StudentView> ViewFromParticipants(ICollection<Student> students)
         {
             var list = new HashSet<StudentView>();

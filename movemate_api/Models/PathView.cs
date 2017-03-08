@@ -9,6 +9,7 @@ namespace movemate_api.Models
     {
         public int PathId { get; set; }
         public Boolean ToFrom { get; set; }
+        public Boolean Open { get; set; }
         public String PathName { get; set; }
         public int Vehicle { get; set; }
         public String StartAddress { get; set; }

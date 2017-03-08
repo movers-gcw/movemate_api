@@ -14,6 +14,7 @@ namespace movemate_api.Models
         {
             this.CreatedPaths = new HashSet<Path>();
             this.Paths = new HashSet<Path>();
+            this.Feedbacks = new HashSet<Feedback>();
         }
         public int StudentId { get; set; }
         public String Name { get; set; }
@@ -26,6 +27,7 @@ namespace movemate_api.Models
         public String FacebookId { get; set; }
         public String GoogleId { get; set; }
         public String PhotoUrl { get; set; }
+        public ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<Path> CreatedPaths { get; set; }
         public virtual ICollection<Path> Paths { get; set; }
 

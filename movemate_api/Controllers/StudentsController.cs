@@ -18,23 +18,55 @@ namespace movemate_api.Controllers
         private ApplicationDbContext db = new ApplicationDbContext();
 
         // GET: api/Students
-        public IQueryable<Student> GetStudents()
+        public IQueryable<StudentView> GetStudents()
         {
-            return db.Students;
+            var stud = new StudentView();
+            var studs = new HashSet<StudentView>();
+            foreach (Student s in db.Students.Include(s => s.CreatedPaths)
+                                            .Include(s => s.Paths))
+            {
+                stud = StudentFacade.ViewFromStudent(s);
+                studs.Add(stud);
+            }
+            return studs.AsQueryable<StudentView>();
         }
 
         // GET: api/Students/5
-        [ResponseType(typeof(Student))]
+        [ResponseType(typeof(StudentSpecifiedView))]
         public IHttpActionResult GetStudent(int id)
         {
-            Student student = db.Students.Find(id);
-
+            /*Student student = db.Students.Include(s => s.CreatedPaths)
+                                         .Include(s => s.Paths)
+                                         .Where(s => s.StudentId == id)
+                                         .FirstOrDefault<Student>();*/
+            var student = from s in db.Students
+                              where s.StudentId == id
+                              select new
+                              {
+                                  StudentId = s.StudentId,
+                                  Paths = (from p in db.Paths
+                                           where p.MakerId == id
+                                           select p).ToList()
+                              };
+        
             if (student == null)
             {
                 return NotFound();
             }
-
+            //var view = StudentFacade.ViewFromSpecifiedStudent(student);
             return Ok(student);
+        }
+        [ResponseType(typeof(StudentView))]
+        public IHttpActionResult GetStudentInfo(int StudentId)
+        {
+            var student = db.Students.Include(s => s.Feedbacks)
+                                     .Where(s => s.StudentId == StudentId).FirstOrDefault<Student>();
+            if (student == null)
+            {
+                return NotFound();
+            }
+            var view = StudentFacade.ViewFromStudent(student);
+            return Ok(view);
         }
 
         // POST: api/Students
@@ -57,16 +89,6 @@ namespace movemate_api.Controllers
             db.SaveChanges();
             return CreatedAtRoute("DefaultApi", new { id = student.StudentId }, student);
         }
-
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
         private bool StudentExists(int id)
         {
             return db.Students.Count(e => e.StudentId == id) > 0;
@@ -81,6 +103,20 @@ namespace movemate_api.Controllers
                 return NotFound();
             }
             return Ok(student.StudentId);
+        }
+
+        public IHttpActionResult PostFeedback(int StudentId, double Rate)
+        {
+            var student = db.Students.Include(s => s.Feedbacks).Where(s => s.StudentId == StudentId).FirstOrDefault<Student>();
+            var feedback = new Feedback();
+            feedback.Rate = Rate;
+            feedback.Student = student;
+            feedback.StudentId = StudentId;
+            student.Feedbacks.Add(feedback);
+            db.Feedbacks.Add(feedback);
+            db.Entry(student).State = EntityState.Modified;
+            db.SaveChanges();
+            return Ok();
         }
         public IHttpActionResult PutStudentVerification(String facebookId, String code)
         {
@@ -113,7 +149,7 @@ namespace movemate_api.Controllers
         public IHttpActionResult GetStudentId(String id)
         {
             var student = db.Students.Where(s => s.FacebookId.Equals(id)).FirstOrDefault<Student>();
-            if(student == null)
+            if (student == null)
             {
                 return NotFound();
             }
@@ -136,7 +172,7 @@ namespace movemate_api.Controllers
         public IHttpActionResult GetPhotoUrl(int id)
         {
             var student = db.Students.Find(id);
-            if(student == null)
+            if (student == null)
             {
                 return NotFound();
             }

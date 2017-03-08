@@ -35,18 +35,5 @@ namespace movemate_api.Controllers
             var deps = app.AsQueryable<Department>();
             return deps;
         }
-        protected override void Dispose(bool disposing)
-        {
-            if (disposing)
-            {
-                db.Dispose();
-            }
-            base.Dispose(disposing);
-        }
-
-        private bool DepartmentExists(int id)
-        {
-            return db.Departments.Count(e => e.DepartmentId == id) > 0;
-        }
     }
 }

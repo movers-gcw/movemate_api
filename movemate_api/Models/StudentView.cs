@@ -11,5 +11,6 @@ namespace movemate_api.Models
         public String Name { get; set; }
         public String Surname { get; set; }
         public String Email { get; set; }
+        public double TotalFeedback { get; set; }
     }
 }
