@@ -116,8 +116,28 @@ namespace movemate_api.Controllers
             db.Feedbacks.Add(feedback);
             db.Entry(student).State = EntityState.Modified;
             db.SaveChanges();
-            var c = new PathsController();
-            return c.PutDisjoinPath(LeaverId, PathId);
+            return PutDisjoinPath(LeaverId, PathId);
+        }
+
+        private IHttpActionResult PutDisjoinPath(int StudentId, int PathId)
+        {
+            var path = db.Paths.Include(p => p.Students)
+                               .Include(p => p.Maker)
+                               .Where(p => p.PathId == PathId)
+                               .FirstOrDefault<Path>(); ;
+            var stud = db.Students.Include(s => s.Paths)
+                                  .Where(s => s.StudentId == StudentId)
+                                  .FirstOrDefault<Student>();
+            if (path == null || stud == null)
+            {
+                return BadRequest();
+            }
+            path.Students.Remove(stud);
+            stud.Paths.Remove(path);
+            db.Entry(stud).State = EntityState.Modified;
+            db.Entry(path).State = EntityState.Modified;
+            db.SaveChanges();
+            return Ok();
         }
         public IHttpActionResult PutStudentVerification(String facebookId, String code)
         {
