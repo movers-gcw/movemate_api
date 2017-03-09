@@ -105,7 +105,7 @@ namespace movemate_api.Controllers
             return Ok(student.StudentId);
         }
 
-        public IHttpActionResult PostFeedback(int StudentId, double Rate)
+        public IHttpActionResult PostFeedback(int StudentId, double Rate, int LeaverId, int PathId)
         {
             var student = db.Students.Include(s => s.Feedbacks).Where(s => s.StudentId == StudentId).FirstOrDefault<Student>();
             var feedback = new Feedback();
@@ -116,7 +116,8 @@ namespace movemate_api.Controllers
             db.Feedbacks.Add(feedback);
             db.Entry(student).State = EntityState.Modified;
             db.SaveChanges();
-            return Ok();
+            var c = new PathsController();
+            return c.PutDisjoinPath(LeaverId, PathId);
         }
         public IHttpActionResult PutStudentVerification(String facebookId, String code)
         {

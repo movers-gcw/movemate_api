@@ -77,7 +77,7 @@ namespace movemate_api.Controllers
         {
             int price = Int32.Parse(p.Price);
             int desiredprice = Int32.Parse(Price);
-            if (p.ToFrom == ToFrom && Vehicle.Contains(p.Vehicle) && price <= desiredprice)
+            if (p.ToFrom == ToFrom && Vehicle.Contains(p.Vehicle) && price <= desiredprice && p.Open == true)
             {
                 var path = PathFacade.ViewFromPath(p);
                 paths.Add(path);
