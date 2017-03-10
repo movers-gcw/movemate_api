@@ -26,6 +26,7 @@ namespace movemate_api.Models
         public static PathSpecifiedView ViewFromPathSpecified(Path app)
         {
             var path = new PathSpecifiedView();
+            path.PathId = app.PathId;
             path.PathName = app.PathName;
             path.Vehicle = app.Vehicle;
             path.StartAddress = app.Start.Address;
