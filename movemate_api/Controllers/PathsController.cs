@@ -286,6 +286,7 @@ namespace movemate_api.Controllers
             path.PathName = blob.PathName;
             path.Vehicle = 2;
             path.Price = "0";
+            path.AvailableSeats = 500;
             start.Path = path;
             destination.Path = path;
             path.Maker = student;
