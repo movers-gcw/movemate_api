@@ -15,6 +15,8 @@ using System.Web.Http.Results;
 using System.Web.Mvc;
 using Newtonsoft.Json;
 using System.Text;
+using System.Threading.Tasks;
+using Newtonsoft.Json.Linq;
 
 namespace movemate_api.Controllers
 {
@@ -163,6 +165,9 @@ namespace movemate_api.Controllers
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
+            var array = GetLatLon(start.Address);
+            start.Latitude = array[0];
+            start.Longitude = array[1];
             path.DepartmentAddress = dep.Address;
             path.ToFrom = blob.ToFrom;
             path.Open = true;
@@ -311,6 +316,34 @@ namespace movemate_api.Controllers
             db.SaveChanges();
             return Ok();
         }
+
+        public HttpResponseMessage GetGmapsApi(String address)
+        {
+            address.Replace(" ", "");
+            address.Replace("-", "");
+            HttpClient client = new HttpClient();
+            string uri = "http://maps.google.com/maps/api/geocode/json?address=" + address;
+            return client.GetAsync(uri).Result;
+        }
+
+        public double[] GetLatLon(String a)
+        {
+            var test = GetGmapsApi(a);
+            var s = test.Content.ReadAsAsync<JObject>().Result.ToString();
+            var jo = (JObject)JsonConvert.DeserializeObject(s);
+            double lat = jo.SelectToken("geometry.location.lat").Value<double>();
+            double lon = jo.SelectToken("geometry.location.lng").Value<double>();
+            double[] result = new Double[2];
+            result[0] = lat;
+            result[1] = lon;
+            return result;
+        }
+
+        public IQueryable<double> GetTest(String a)
+        {
+            return GetLatLon(a).AsQueryable();
+        }
+
         public IHttpActionResult PutJoinPath(int StudentId, int PathId)
         {
             var path = db.Paths.Include(p => p.Students)

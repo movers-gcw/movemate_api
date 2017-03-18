@@ -80,6 +80,12 @@ namespace movemate_api.Controllers
             Student verify = db.Students.Where(s => s.FacebookId.Equals(student.FacebookId)).FirstOrDefault<Student>();
             if (verify != null && !verify.Verified)
             {
+                if(verify.Email != null)
+                {
+                    verify.Email = student.Email;
+                    db.Entry(verify).State = EntityState.Modified;
+                    db.SaveChanges();
+                }
                 MailSender.SendEmail(verify.Email, verify.VerificationCode);
                 return Ok();
             }
@@ -175,29 +181,6 @@ namespace movemate_api.Controllers
                 return NotFound();
             }
             return Ok(student.StudentId);
-        }
-
-        public IHttpActionResult PutPhotoUrl(int id, String url)
-        {
-            var student = db.Students.Find(id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-            student.PhotoUrl = url;
-            db.Entry(student).State = EntityState.Modified;
-            db.SaveChanges();
-            return Ok(student);
-        }
-
-        public IHttpActionResult GetPhotoUrl(int id)
-        {
-            var student = db.Students.Find(id);
-            if (student == null)
-            {
-                return NotFound();
-            }
-            return Ok(student.PhotoUrl);
         }
 
     }
