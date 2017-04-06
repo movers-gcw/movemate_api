@@ -249,6 +249,18 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MailSender.cs" />
     <Compile Include="Controllers\PointOfInterestsController.cs" />
+    <Compile Include="Migrations\201704060803169_Initial.cs" />
+    <Compile Include="Migrations\201704060803169_Initial.Designer.cs">
+      <DependentUpon>201704060803169_Initial.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704060832576_Initial1.cs" />
+    <Compile Include="Migrations\201704060832576_Initial1.Designer.cs">
+      <DependentUpon>201704060832576_Initial1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201704060846465_Initial2.cs" />
+    <Compile Include="Migrations\201704060846465_Initial2.Designer.cs">
+      <DependentUpon>201704060846465_Initial2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\PathBlob.cs" />
     <Compile Include="Models\PathCarBlob.cs" />
@@ -323,6 +335,15 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EmbeddedResource Include="Migrations\201704060803169_Initial.resx">
+      <DependentUpon>201704060803169_Initial.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704060832576_Initial1.resx">
+      <DependentUpon>201704060832576_Initial1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704060846465_Initial2.resx">
+      <DependentUpon>201704060846465_Initial2.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\departments.csv" />
     <EmbeddedResource Include="Migrations\universities.csv" />
     <None Include="Properties\PublishProfiles\movemate-api - Web Deploy %284%29.pubxml" />

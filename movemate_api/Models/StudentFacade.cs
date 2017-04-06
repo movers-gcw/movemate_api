@@ -11,12 +11,13 @@ namespace movemate_api.Models
         static readonly char[] AvailableCharacters = {
              '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
         };
-        public static Student CreateStudent(String name, String surname, String email, String facebookId)
+        public static Student CreateStudent(String name, String surname, String email, String phone, String facebookId)
         {
             Student student = new Models.Student();
             student.Name = name;
             student.Surname = surname;
             student.Email = email;
+            student.PhoneNumber = phone;
             student.Verified = false;
             String code = GenerateRandomCode(6);
             student.VerificationCode = code;
@@ -37,6 +38,7 @@ namespace movemate_api.Models
             view.Surname = student.Surname;
             view.Email = student.Email;
             view.StudentId = student.StudentId;
+            view.PhoneNumber = student.PhoneNumber;
             double sum = 0;
             double count = student.Feedbacks.Count();
             foreach(Feedback f in student.Feedbacks)
@@ -61,6 +63,7 @@ namespace movemate_api.Models
             view.Surname = student.Surname;
             view.Email = student.Email;
             view.StudentId = student.StudentId;
+            view.PhoneNumber = student.PhoneNumber;
             return view;
         }
         public static ICollection<StudentView> ViewFromParticipants(ICollection<Student> students)

@@ -26,7 +26,9 @@ namespace movemate_api.Models
         public Department Department { get; set; }
         public String FacebookId { get; set; }
         public String GoogleId { get; set; }
-        public String PhotoUrl { get; set; }
+        public String PhoneNumber { get; set; }
+        public String PhotoBase { get; set; }
+        public byte[] Photo { get; set; }
         public ICollection<Feedback> Feedbacks { get; set; }
         public virtual ICollection<Path> CreatedPaths { get; set; }
         public virtual ICollection<Path> Paths { get; set; }
