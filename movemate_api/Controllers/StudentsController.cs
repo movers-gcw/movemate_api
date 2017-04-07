@@ -194,7 +194,7 @@ namespace movemate_api.Controllers
             if (Request.Content.Headers.ContentLength > 115600) //115,6 KB (max img size in base64 format)
                 return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, "Request content is larger than 115,6 KB(" + Request.Content.Headers.ContentLength + "/115600)");
             if (image == null)
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "The image field is empty" + "\n" + Request.Content.ToString() + "\n" + Request.Headers + "\n" + Request.Content.Headers);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "The image field is empty");
             //Check if the real size of image file is larger than 86700 B
             int imSize = (image.Length / 4) * 3;
             if (imSize > 86700) //86,7 KB
@@ -237,7 +237,7 @@ namespace movemate_api.Controllers
             bool ispng = photo.RawFormat.Equals((object)ImageFormat.Png);
             if (!((isjpeg || ispng) && (photo.Width <= 170 && photo.Height <= 170)))
                 return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, "Image format or dimensions not allowed");
-            photo.Dispose();
+            //photo.Dispose();
 
             //Find Student by his Id
             Student student = db.Students.Where(s => s.StudentId == id).FirstOrDefault<Student>();
@@ -259,74 +259,25 @@ namespace movemate_api.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, dbe.Message);
             }
             student = null;
-            return Request.CreateResponse(HttpStatusCode.OK);
+            return Request.CreateResponse<Image>(HttpStatusCode.OK, photo);
         }
 
-        [ResponseType(typeof(HttpStatusCode))]
-        public async Task<HttpResponseMessage> PutStudentImage(int id)
+        public IHttpActionResult GetPhoto(int id)
         {
-            // Check if request content-type is image/jpeg or image/png & size is less than 86700 B
-            /*if (!Request.Content.Headers.ContentType.MediaType.Equals("image/jpeg") && !Request.Content.Headers.ContentType.MediaType.Equals("image/png"))
-                return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, $"Media type '{Request.Content.Headers.ContentType.MediaType}' not allowed");
-            if (Request.Content.Headers.ContentLength > 86700) //86,7 KB
-                return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, "Media is larger than 86,7 KB(" + Request.Content.Headers.ContentLength + "/86700)");
-            */
-            //Create image buffer
-            byte[] photoBuffer;
-            using (Stream photoStream = await Request.Content.ReadAsStreamAsync())
+            Student student = db.Students.Find(id);
+            if(student==null)
             {
-                photoBuffer = new byte[photoStream.Length];
-                await photoStream.ReadAsync(photoBuffer, 0, photoBuffer.Length);
+                return NotFound();
             }
+            return Ok(student.PhotoBase);
+        }
 
-            //Create image object to represent photo
-            Image photo;
-            using (Stream photoStream = new MemoryStream(photoBuffer.Length))
-            {
-                await photoStream.WriteAsync(photoBuffer, 0, photoBuffer.Length);
-
-                try
-                {
-                    photo = Image.FromStream(photoStream);
-                }
-                catch (ArgumentException e)
-                {
-                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message);
-                }
-            }
-
-            //Check if photo meets requirements
-            bool isjpeg = photo.RawFormat.Equals((object)ImageFormat.Jpeg);
-            bool ispng = photo.RawFormat.Equals((object)ImageFormat.Png);
-            if (!((isjpeg || ispng) && (photo.Width <= 170 && photo.Height <= 170)))
-                return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, "Image format or dimensions not allowed");
-
-            photo.Dispose();
-
-            //Find Student by Id
-            Student student = db.Students.Where(s => s.StudentId == id).FirstOrDefault<Student>();
-            if (student == null)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Student not found");
-            }
-
-            //Save photo into the student's "Photo" item 
-            student.Photo = new byte[photoBuffer.Length];
-            photoBuffer.CopyTo(student.Photo, 0);
-
-            photoBuffer = null;
-
-            db.Entry(student).State = EntityState.Modified;
-            try
-            {
-                db.SaveChanges();
-            }
-            catch (DbUpdateConcurrencyException dbe)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, dbe.Message);
-            }
-            student = null;
-            return Request.CreateResponse(HttpStatusCode.OK);
+        public IHttpActionResult DeleteStudent(int id)
+        {
+            Student student = db.Students.Find(id);
+            db.Students.Remove(student);
+            db.SaveChanges();
+            return Ok();
         }
 
     }
