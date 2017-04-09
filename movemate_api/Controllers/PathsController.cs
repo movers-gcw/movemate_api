@@ -165,9 +165,6 @@ namespace movemate_api.Controllers
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
-            var array = GetLatLon(start.Address);
-            start.Latitude = array[0];
-            start.Longitude = array[1];
             path.DepartmentAddress = dep.Address;
             path.ToFrom = blob.ToFrom;
             path.Open = true;
