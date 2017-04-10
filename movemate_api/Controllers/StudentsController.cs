@@ -107,7 +107,6 @@ namespace movemate_api.Controllers
             MailSender.SendEmail(student.Email, student.VerificationCode);
             db.Students.Add(student);
             db.SaveChanges();
-            HttpClient client = new HttpClient();
             string uri = "\"" + blob.PhotoUri + "\"";
             return PutStdImageByLink(student.FacebookId, uri).Result;
         }
