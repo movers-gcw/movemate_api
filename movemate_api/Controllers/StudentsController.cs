@@ -75,11 +75,17 @@ namespace movemate_api.Controllers
 
         // POST: api/Students
         [ResponseType(typeof(Student))]
-        public IHttpActionResult PostStudent(Student student)
+        public HttpResponseMessage PostStudent(StudentBlob blob)
         {
+            Student student = new Models.Student();
+            student.Name = blob.Name;
+            student.Surname = blob.Surname;
+            student.FacebookId = blob.FacebookId;
+            student.Email = blob.Email;
+            student.PhoneNumber = blob.PhoneNumber;
             if (!ModelState.IsValid)
             {
-                return BadRequest(ModelState);
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
             Student verify = db.Students.Where(s => s.FacebookId.Equals(student.FacebookId)).FirstOrDefault<Student>();
             if (verify != null && !verify.Verified)
@@ -91,17 +97,19 @@ namespace movemate_api.Controllers
                     db.SaveChanges();
                 }
                 MailSender.SendEmail(verify.Email, verify.VerificationCode);
-                return Ok();
+                return new HttpResponseMessage(HttpStatusCode.OK);
             }
             if (verify != null && verify.Verified)
             {
-                return Ok();
+                return new HttpResponseMessage(HttpStatusCode.OK); ;
             }
             student = StudentFacade.AddVerificationCode(student);
             MailSender.SendEmail(student.Email, student.VerificationCode);
             db.Students.Add(student);
             db.SaveChanges();
-            return CreatedAtRoute("DefaultApi", new { id = student.StudentId }, student);
+            HttpClient client = new HttpClient();
+            string uri = "\"" + blob.PhotoUri + "\"";
+            return PutStdImageByLink(student.FacebookId, uri).Result;
         }
         private bool StudentExists(int id)
         {

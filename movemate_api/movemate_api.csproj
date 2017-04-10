@@ -284,6 +284,7 @@
     <Compile Include="Models\PathView.cs" />
     <Compile Include="Models\PointOfInterest.cs" />
     <Compile Include="Models\Section.cs" />
+    <Compile Include="Models\StudentBlob.cs" />
     <Compile Include="Models\StudentFacade.cs" />
     <Compile Include="Models\StudentSpecifiedView.cs" />
     <Compile Include="Models\StudentView.cs" />
