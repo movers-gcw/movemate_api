@@ -107,9 +107,10 @@ namespace movemate_api.Controllers
             MailSender.SendEmail(student.Email, student.VerificationCode);
             db.Students.Add(student);
             db.SaveChanges();
-            string uri = "\"" + blob.PhotoUri + "\"";
+            string uri = blob.PhotoUri;
             return PutStdImageByLink(student.FacebookId, uri).Result;
         }
+
         private bool StudentExists(int id)
         {
             return db.Students.Count(e => e.StudentId == id) > 0;
@@ -208,9 +209,11 @@ namespace movemate_api.Controllers
             };
 
             byte[] photoBuffer;
+            string decoded = uri.Replace('|', '&'); // risostituisce le occorrenze di |, inserito al posto di & su android
+                                                    // per evitare passaggi di parametri inesistenti
             try
             {
-                photoBuffer = await sender.GetByteArrayAsync(uri);
+                photoBuffer = await sender.GetByteArrayAsync(decoded);
             }
             catch (Exception e)
             {
