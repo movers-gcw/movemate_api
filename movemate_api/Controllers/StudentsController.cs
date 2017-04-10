@@ -93,6 +93,10 @@ namespace movemate_api.Controllers
                 MailSender.SendEmail(verify.Email, verify.VerificationCode);
                 return Ok();
             }
+            if (verify != null && verify.Verified)
+            {
+                return Ok();
+            }
             student = StudentFacade.AddVerificationCode(student);
             MailSender.SendEmail(student.Email, student.VerificationCode);
             db.Students.Add(student);
@@ -188,32 +192,24 @@ namespace movemate_api.Controllers
         }
 
         [ResponseType(typeof(HttpStatusCode))]
-        public async Task<HttpResponseMessage> PutStringStudentImage(int id, [FromBody] string image)
+        public async Task<HttpResponseMessage> PutStdImageByLink(string id, string uri)
         {
-            //Check if Request content size is larger than size of image file, converted into base64 string
-            if (Request.Content.Headers.ContentLength > 115600) //115,6 KB (max img size in base64 format)
-                return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, "Request content is larger than 115,6 KB(" + Request.Content.Headers.ContentLength + "/115600)");
-            if (image == null)
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "The image field is empty");
-            //Check if the real size of image file is larger than 86700 B
-            int imSize = (image.Length / 4) * 3;
-            if (imSize > 86700) //86,7 KB
-                return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, "Media is larger than 86,7 KB(" + imSize + "/86700)");
+            //Create http request to get photo by uri
+            HttpClient sender = new HttpClient()
+            {
+                MaxResponseContentBufferSize = 1280 * 1024
+            };
 
-            //Create image buffer 
             byte[] photoBuffer;
             try
             {
-                photoBuffer = Convert.FromBase64String(image);
+                photoBuffer = await sender.GetByteArrayAsync(uri);
             }
-            catch (ArgumentNullException e)
+            catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Media Conversion error: " + e.Message);
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e.Message);
             }
-            catch (FormatException e)
-            {
-                return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, "Media Conversion error: " + e.Message);
-            }
+            sender.Dispose();
 
             //Create image object to represent photo
             Image photo;
@@ -227,27 +223,20 @@ namespace movemate_api.Controllers
                 }
                 catch (ArgumentException e)
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, e.Message);
+                    return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e.Message);
                 }
             }
-            photoBuffer = null;
-
-            //Check if photo meets requirements
-            bool isjpeg = photo.RawFormat.Equals((object)ImageFormat.Jpeg);
-            bool ispng = photo.RawFormat.Equals((object)ImageFormat.Png);
-            if (!((isjpeg || ispng) && (photo.Width <= 170 && photo.Height <= 170)))
-                return Request.CreateErrorResponse(HttpStatusCode.UnsupportedMediaType, "Image format or dimensions not allowed");
-            //photo.Dispose();
+            photo.Dispose();
 
             //Find Student by his Id
-            Student student = db.Students.Where(s => s.StudentId == id).FirstOrDefault<Student>();
+            Student student = db.Students.Where(s => s.FacebookId.Equals(id)).FirstOrDefault<Student>();
             if (student == null)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Student not found");
             }
 
-            //Save photo into the student's "Photo" item 
-            student.PhotoBase = image;
+            //Convert photo to base64 format and save it into the student's "Photo" item (string)
+            student.PhotoBase = Convert.ToBase64String(photoBuffer);
 
             db.Entry(student).State = EntityState.Modified;
             try
@@ -258,8 +247,9 @@ namespace movemate_api.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.InternalServerError, dbe.Message);
             }
+            photoBuffer = null;
             student = null;
-            return Request.CreateResponse<Image>(HttpStatusCode.OK, photo);
+            return Request.CreateResponse(HttpStatusCode.OK);
         }
 
         public IHttpActionResult GetPhoto(int id)
@@ -270,6 +260,21 @@ namespace movemate_api.Controllers
                 return NotFound();
             }
             return Ok(student.PhotoBase);
+        }
+
+        public HttpResponseMessage GetImage(int id)
+        {
+            Student student = db.Students.Find(id);
+            if (student == null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
+            HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            byte[] buffer = Convert.FromBase64String(student.PhotoBase);
+            MemoryStream stream = new MemoryStream(buffer);
+            response.Content = new StreamContent(stream);
+            response.Content.Headers.ContentType = new System.Net.Http.Headers.MediaTypeHeaderValue("image/jpeg");
+            return response;
         }
 
         public IHttpActionResult DeleteStudent(int id)
