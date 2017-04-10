@@ -267,9 +267,13 @@ namespace movemate_api.Controllers
             Student student = db.Students.Find(id);
             if (student == null)
             {
-                return new HttpResponseMessage(HttpStatusCode.NotFound);
+                return new HttpResponseMessage(HttpStatusCode.BadRequest);
             }
             HttpResponseMessage response = new HttpResponseMessage(HttpStatusCode.OK);
+            if(student.PhotoBase==null)
+            {
+                return new HttpResponseMessage(HttpStatusCode.NotFound);
+            }
             byte[] buffer = Convert.FromBase64String(student.PhotoBase);
             MemoryStream stream = new MemoryStream(buffer);
             response.Content = new StreamContent(stream);
