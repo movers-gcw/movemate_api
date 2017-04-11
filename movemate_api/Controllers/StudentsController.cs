@@ -209,7 +209,7 @@ namespace movemate_api.Controllers
             };
 
             byte[] photoBuffer;
-            string decoded = uri.Replace('|', '&'); // risostituisce le occorrenze di |, inserito al posto di & su android
+            string decoded = uri.Replace(',', '&'); // risostituisce le occorrenze di , inserito al posto di & su android
                                                     // per evitare passaggi di parametri inesistenti
             try
             {
