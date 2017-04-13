@@ -99,16 +99,19 @@ namespace movemate_api.Controllers
                 MailSender.SendEmail(verify.Email, verify.VerificationCode);
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
-            if (verify != null && verify.Verified)
+            else if (verify != null && verify.Verified)
             {
                 return Request.CreateResponse(HttpStatusCode.OK);
             }
-            student = StudentFacade.AddVerificationCode(student);
-            MailSender.SendEmail(student.Email, student.VerificationCode);
-            db.Students.Add(student);
-            db.SaveChanges();
-            string uri = blob.PhotoUri;
-            return await PutStdImageByLink(student.FacebookId, uri);
+            else
+            {
+                student = StudentFacade.AddVerificationCode(student);
+                MailSender.SendEmail(student.Email, student.VerificationCode);
+                db.Students.Add(student);
+                db.SaveChanges();
+                string uri = blob.PhotoUri;
+                return await PutStdImageByLink(student.FacebookId, uri);
+            }    
         }
 
         private bool StudentExists(int id)

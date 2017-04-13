@@ -34,6 +34,6 @@ namespace movemate_api.Models
         public String Description { get; set; }
         public int AvailableSeats { get; set; }
         public Boolean AvailableHeadgear { get; set; }
-        //public ICollection<int> Blacklist { get; set; } blacklista un id studente per impedirgli di mettere altri feedback, da implementare nel post feedback
+        public int UniversityId { get; set; }
     }
 }

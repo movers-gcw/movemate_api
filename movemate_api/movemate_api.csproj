@@ -18,7 +18,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <MvcBuildViews>false</MvcBuildViews>
     <UseIISExpress>true</UseIISExpress>
-    <IISExpressSSLPort />
+    <IISExpressSSLPort>44390</IISExpressSSLPort>
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
@@ -261,6 +261,10 @@
     <Compile Include="Migrations\201704060846465_Initial2.Designer.cs">
       <DependentUpon>201704060846465_Initial2.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201704130832022_Initial3.cs" />
+    <Compile Include="Migrations\201704130832022_Initial3.Designer.cs">
+      <DependentUpon>201704130832022_Initial3.cs</DependentUpon>
+    </Compile>
     <Compile Include="Models\Feedback.cs" />
     <Compile Include="Models\PathBlob.cs" />
     <Compile Include="Models\PathCarBlob.cs" />
@@ -344,6 +348,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201704060846465_Initial2.resx">
       <DependentUpon>201704060846465_Initial2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201704130832022_Initial3.resx">
+      <DependentUpon>201704130832022_Initial3.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\departments.csv" />
     <EmbeddedResource Include="Migrations\universities.csv" />

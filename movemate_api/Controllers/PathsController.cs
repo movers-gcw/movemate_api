@@ -37,14 +37,15 @@ namespace movemate_api.Controllers
             return paths.AsQueryable<PathView>();
         }
 
-        public IQueryable<PathView> GetFilteredPaths(Boolean ToFrom, int DepId, [FromUri] int[] Vehicle, String Price)
+        public IQueryable<PathView> GetFilteredPaths(Boolean ToFrom, int UniId, int DepId, [FromUri] int[] Vehicle, String Price)
         {
             var paths = new HashSet<PathView>();
             var path = new PathView();
             if (DepId == 0)
             {
                 foreach (Path p in db.Paths.Include(p => p.Start)
-                                           .Include(p => p.Destination))
+                                           .Include(p => p.Destination)
+                                           .Where(p => p.UniversityId==UniId))
                 {
                     Filter(ToFrom, Vehicle, Price, p, paths);
                 }
@@ -165,6 +166,7 @@ namespace movemate_api.Controllers
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
+            path.UniversityId = uni.UniversityId;
             path.DepartmentAddress = dep.Address;
             path.ToFrom = blob.ToFrom;
             path.Open = true;
@@ -221,6 +223,7 @@ namespace movemate_api.Controllers
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
+            path.UniversityId = uni.UniversityId;
             path.DepartmentAddress = dep.Address;
             path.ToFrom = blob.ToFrom;
             path.Open = true;
@@ -277,6 +280,7 @@ namespace movemate_api.Controllers
                 add += " - " + dep.DepartmentName;
                 start.Address = add;
             }
+            path.UniversityId = uni.UniversityId;
             path.DepartmentAddress = dep.Address;
             path.ToFrom = blob.ToFrom;
             path.Open = true;
