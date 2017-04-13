@@ -12,6 +12,7 @@ using movemate_api.Models;
 
 namespace movemate_api.Controllers
 {
+    [FacebookIdAuth]
     public class PointOfInterestsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();

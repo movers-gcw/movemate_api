@@ -20,10 +20,11 @@ using Newtonsoft.Json.Linq;
 
 namespace movemate_api.Controllers
 {
+    [FacebookIdAuth]
     public class PathsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        
         public IQueryable<PathView> GetPaths()
         {
             var paths = new HashSet<PathView>();
@@ -80,13 +81,14 @@ namespace movemate_api.Controllers
         {
             int price = Int32.Parse(p.Price);
             int desiredprice = Int32.Parse(Price);
-            if (p.ToFrom == ToFrom && Vehicle.Contains(p.Vehicle) && price <= desiredprice && p.Open == true)
+            int emptyseats = p.AvailableSeats - p.Students.Count();
+            if (p.ToFrom == ToFrom && Vehicle.Contains(p.Vehicle) && price <= desiredprice && p.Open == true && emptyseats>0)
             {
                 var path = PathFacade.ViewFromPath(p);
                 paths.Add(path);
             }
         }
-
+        
         public IQueryable<PathView> GetMyPaths(int StudentId)
         {
             var me = db.Students.Find(StudentId);

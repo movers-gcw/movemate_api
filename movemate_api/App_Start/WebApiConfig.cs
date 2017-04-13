@@ -18,6 +18,8 @@ namespace movemate_api
             // Configurare l'API Web per usare solo l'autenticazione con token di connessione.
             config.SuppressDefaultHostAuthentication();
             config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
+            //config.Filters.Add(new Controllers.FacebookIdAuthAttribute());
+            //config.Filters.Add(new Controllers.AnonymousAttribute());
 
             // Route dell'API Web
             config.MapHttpAttributeRoutes();

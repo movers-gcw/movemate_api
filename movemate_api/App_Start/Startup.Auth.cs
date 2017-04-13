@@ -40,7 +40,7 @@ namespace movemate_api
                 AuthorizeEndpointPath = new PathString("/api/Account/ExternalLogin"),
                 AccessTokenExpireTimeSpan = TimeSpan.FromDays(14),
                 // In modalità di produzione impostare AllowInsecureHttp = false
-                AllowInsecureHttp = true
+                AllowInsecureHttp = false
             };
 
             // Consentire all'applicazione di utilizzare token di connessione per autenticare gli utenti

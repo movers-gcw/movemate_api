@@ -13,6 +13,7 @@ using Microsoft.ApplicationInsights;
 
 namespace movemate_api.Controllers
 {
+    [FacebookIdAuth]
     public class DepartmentsController : ApiController
     {
         private ApplicationDbContext db = new ApplicationDbContext();

@@ -19,8 +19,9 @@ namespace movemate_api.Controllers
 {
     public class StudentsController : ApiController
     {
+        
         private ApplicationDbContext db = new ApplicationDbContext();
-
+        [FacebookIdAuth]
         // GET: api/Students
         public IQueryable<StudentView> GetStudents()
         {
@@ -36,6 +37,7 @@ namespace movemate_api.Controllers
         }
 
         // GET: api/Students/5
+        [FacebookIdAuth]
         [ResponseType(typeof(StudentSpecifiedView))]
         public IHttpActionResult GetStudent(int id)
         {
@@ -60,6 +62,8 @@ namespace movemate_api.Controllers
             //var view = StudentFacade.ViewFromSpecifiedStudent(student);
             return Ok(student);
         }
+
+        [FacebookIdAuth]
         [ResponseType(typeof(StudentView))]
         public IHttpActionResult GetStudentInfo(int StudentId)
         {
@@ -74,7 +78,7 @@ namespace movemate_api.Controllers
         }
 
         // POST: api/Students
-
+        [Anonymous]
         public async Task<HttpResponseMessage> PostStudent(StudentBlob blob)
         {
             Student student = new Models.Student();
@@ -87,7 +91,12 @@ namespace movemate_api.Controllers
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "model state non valid");
             }
-            Student verify = db.Students.Where(s => s.FacebookId.Equals(student.FacebookId)).FirstOrDefault<Student>();
+            Student verify = db.Students.Where(s => s.Email.Equals(student.Email)).FirstOrDefault<Student>();
+            if(verify!=null && !verify.FacebookId.Equals(student.FacebookId))
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "email già in uso");
+            }
+            verify = db.Students.Where(s => s.FacebookId.Equals(student.FacebookId)).FirstOrDefault<Student>();
             if (verify != null && !verify.Verified)
             {
                 if(verify.Email != null)
@@ -113,12 +122,13 @@ namespace movemate_api.Controllers
                 return await PutStdImageByLink(student.FacebookId, uri);
             }    
         }
-
+        [FacebookIdAuth]
         private bool StudentExists(int id)
         {
             return db.Students.Count(e => e.StudentId == id) > 0;
         }
 
+        [Anonymous]
         [ResponseType(typeof(void))]
         public IHttpActionResult GetRegisteredStudent(String facebookId) // verifica se un utente è registrato e verificato
         {
@@ -130,6 +140,7 @@ namespace movemate_api.Controllers
             return Ok(student.StudentId);
         }
 
+        [FacebookIdAuth]
         public IHttpActionResult PostFeedback(int StudentId, double Rate, int LeaverId, int PathId)
         {
             var student = db.Students.Include(s => s.Feedbacks).Where(s => s.StudentId == StudentId).FirstOrDefault<Student>();
@@ -144,6 +155,7 @@ namespace movemate_api.Controllers
             return PutDisjoinPath(LeaverId, PathId);
         }
 
+        [FacebookIdAuth]
         private IHttpActionResult PutDisjoinPath(int StudentId, int PathId)
         {
             var path = db.Paths.Include(p => p.Students)
@@ -164,6 +176,8 @@ namespace movemate_api.Controllers
             db.SaveChanges();
             return Ok();
         }
+
+        [Anonymous]
         public IHttpActionResult PutStudentVerification(String facebookId, String code)
         {
             Student student = db.Students.Where(s => s.FacebookId.Equals(facebookId)).FirstOrDefault<Student>();
@@ -192,6 +206,8 @@ namespace movemate_api.Controllers
             }
             return StatusCode(HttpStatusCode.PreconditionFailed);
         }
+
+        [Anonymous]
         public IHttpActionResult GetStudentId(String id)
         {
             var student = db.Students.Where(s => s.FacebookId.Equals(id)).FirstOrDefault<Student>();
@@ -202,6 +218,7 @@ namespace movemate_api.Controllers
             return Ok(student.StudentId);
         }
 
+        [Anonymous]
         [ResponseType(typeof(HttpStatusCode))]
         public async Task<HttpResponseMessage> PutStdImageByLink(string id, string uri)
         {
@@ -265,6 +282,7 @@ namespace movemate_api.Controllers
             return Request.CreateResponse(HttpStatusCode.OK);
         }
 
+        [FacebookIdAuth]
         public IHttpActionResult GetPhoto(int id)
         {
             Student student = db.Students.Find(id);
@@ -275,6 +293,7 @@ namespace movemate_api.Controllers
             return Ok(student.PhotoBase);
         }
 
+        [FacebookIdAuth]
         public HttpResponseMessage GetImage(int id)
         {
             Student student = db.Students.Find(id);
@@ -294,13 +313,13 @@ namespace movemate_api.Controllers
             return response;
         }
 
-        public IHttpActionResult DeleteStudent(int id)
+      /*public IHttpActionResult DeleteStudent(int id)
         {
             Student student = db.Students.Find(id);
             db.Students.Remove(student);
             db.SaveChanges();
             return Ok();
-        }
+        }*/
 
     }
 }

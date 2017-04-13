@@ -39,7 +39,7 @@ namespace movemate_api.Models
             view.Email = student.Email;
             view.StudentId = student.StudentId;
             view.PhoneNumber = student.PhoneNumber;
-            view.FacebookId = student.FacebookId;
+            //view.FacebookId = student.FacebookId;
             double sum = 0;
             double count = student.Feedbacks.Count();
             foreach(Feedback f in student.Feedbacks)
